@@ -20,20 +20,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(i,index) in 31" :key="i">
-                    <th>{{i}}</th>
-                    <td><div class="pixel" :data-rate="year[0][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[1][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[2][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[3][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[4][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[5][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[6][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[7][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[8][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[9][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[10][index]"></div></td>
-                    <td><div class="pixel" :data-rate="year[11][index]"></div></td>
+                <tr v-for="(n,index) in 31" :key="n">
+                    <th>{{n}}</th>
+                    <td><div class="pixel" :data-rate="year['january'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['february'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['march'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['april'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['may'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['june'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['july'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['august'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['september'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['october'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['november'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-rate="year['december'][index]" @click="selectPixel"></div></td>
                 </tr>
             </tbody>
         </table>
@@ -41,41 +41,27 @@
 </template>
 
 <script setup>
-const pixels = '544520010214111542154413042433003444521244312135530325222132514205053404324210322252004314050145140212002534024201514433553341333545003102153043420453054151524551202321032223433523245450421211234255542312'.padEnd(365, 0)
-const months = {
-    january: 31,
-    get february(){ return this.january + 28 },
-    get march(){ return this.february + 31 },
-    get april(){ return this.march + 30 },
-    get may(){ return this.april + 31 },
-    get june(){ return this.may + 30 },
-    get july(){ return this.june + 31 },
-    get august(){ return this.july + 31 },
-    get september(){ return this.august + 30 },
-    get october(){ return this.september + 31 },
-    get november(){ return this.october + 30 },
-    get december(){ return this.november + 31 }
-}
-const year = [
-    pixels.substring(0,months['january']),
-    pixels.substring(months['january'], months['february']),
-    pixels.substring(months['february'], months['march']),
-    pixels.substring(months['march'], months['april']),
-    pixels.substring(months['april'], months['may']),
-    pixels.substring(months['may'], months['june']),
-    pixels.substring(months['june'], months['july']),
-    pixels.substring(months['july'], months['august']),
-    pixels.substring(months['august'], months['september']),
-    pixels.substring(months['september'], months['october']),
-    pixels.substring(months['october'], months['november']),
-    pixels.substring(months['november'], months['december'])
-]
+defineProps({
+    year: Object
+})
+
+
 
 onMounted(()=>{
     const todayPixel = document.querySelector(`tbody tr:nth-of-type(${new Date().getDate()}) td:nth-of-type(${new Date().getMonth()+1}) .pixel`)
     todayPixel.classList.add('pixel--today')
 })
 
+const selectPixel = (ev)=>{
+    const allPixels = [...document.querySelectorAll(".pixel")]
+    allPixels.forEach((el)=>{
+        el.classList.remove("pixel--selected")
+    })
+    if(ev.target.dataset.rate === undefined){
+        return;
+    }
+    ev.target.classList.add("pixel--selected")
+}
 </script>
 
 <style lang="scss" scoped>
@@ -100,7 +86,11 @@ th,td{
     height: 1em;
     border-radius: 2px;
     border: 1px solid #222222;
-
+    background-color: #000;
+    cursor: pointer;
+    &[data-rate="0"]{
+        background-color: transparent;
+    }
     &[data-rate="1"]{
         background-color: #F9937C;
     }
@@ -116,8 +106,16 @@ th,td{
     &[data-rate="5"]{
         background-color: #A4F97C;
     }
+    &[data-rate="x"]{
+        background-color: #000;
+    }
 }
 .pixel--today{
+    border-color: #efaa3e;
+    border-spacing: 15px;
+    box-shadow: 0 0 0 5px #171717, 0 0 0 7px #efaa3e;
+}
+.pixel--selected{
     border-color: #efaa3e;
     border-spacing: 15px;
     box-shadow: 0 0 0 5px #171717, 0 0 0 7px #efaa3e;
