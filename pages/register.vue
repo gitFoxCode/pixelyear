@@ -1,18 +1,7 @@
 <template>
     <main>
-        <span class="logo">
-            <a href="#">
-                <b><span class="colored">
-                    <span class="colored--item">P</span>
-                    <span class="colored--item">i</span>
-                    <span class="colored--item">x</span>
-                    <span class="colored--item">e</span>
-                    <span class="colored--item">l</span>
-                    </span>
-                </b>Year
-                </a>
-            </span>
-        <p class="text">Raport your every day how your day went, check your stats and draw conclusions!</p>
+        <h1>Welcome! </h1>
+        <p class="text">This could be the first day of the rest of your life - consciously</p>
         <section class="login">
             <label>
                 <span class="input__title">E-mail</span>
@@ -22,14 +11,18 @@
                 <span class="input__title">Password</span>
                 <input type="password" placeholder="********"/>
             </label>
+            <label>
+                <span class="input__title">Repeat password</span>
+                <input type="password" placeholder="********"/>
+            </label>
         </section>
         <section class="buttons">
-            <button type="button" class="btn--green"><nuxt-icon name="key" /> Log in</button>
-            <p>Don't have an account?  <a href="/register">Register</a></p>
+            <button type="button" class="btn--green"><nuxt-icon name="lock" /> Register</button>
+            <p>Do you already have an account? <a href="/">Log in</a></p>
         </section>
         <section class="buttons">
-            <button type="button"><nuxt-icon name="google" /> Login via Google</button>
-            <button type="button"><nuxt-icon name="facebook" /> Login via Facebook</button>
+            <button type="button"><nuxt-icon name="google" /> Register via Google</button>
+            <button type="button"><nuxt-icon name="facebook" /> Register via Facebook</button>
         </section>
     </main>
 </template>
@@ -136,8 +129,11 @@ main{
         color: #fff;
         font-weight: bold;
     }
+    &:last-of-type{
+        margin-top: 1.5em;
+    }
 }
-.logo{
+h1{
     display: block;
     width: 100%;
     text-align: center;
