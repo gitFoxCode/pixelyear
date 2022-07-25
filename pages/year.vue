@@ -2,31 +2,33 @@
     <section class="section">
         <TopNav />
         <main>
-            <Callendar :year="year" />
+            <Callendar 
+            :year="year"
+            :yearDate="2019" />
             <section class="options">
                 <div class="options__card">
-                    <div class="card__pixel"></div>
+                    <div class="card__pixel card__pixel--avg">{{average.toFixed(2)}}</div>
                     <span class="card__title">Average</span>
                 </div>
                 <div class="options__cards">
-                    <div class="options__card">
-                        <div class="card__pixel"></div>
+                    <div class="options__card" @click="changePixel">
+                        <div class="card__pixel" data-rate="1"></div>
                         <span class="card__title">1 stars</span>
                     </div>
-                    <div class="options__card">
-                        <div class="card__pixel"></div>
+                    <div class="options__card" @click="changePixel">
+                        <div class="card__pixel" data-rate="2"></div>
                         <span class="card__title">2 stars</span>
                     </div>
-                    <div class="options__card">
-                        <div class="card__pixel"></div>
+                    <div class="options__card" @click="changePixel">
+                        <div class="card__pixel" data-rate="3"></div>
                         <span class="card__title">3 stars</span>
                     </div>
-                    <div class="options__card">
-                        <div class="card__pixel"></div>
+                    <div class="options__card" @click="changePixel">
+                        <div class="card__pixel" data-rate="4"></div>
                         <span class="card__title">4 stars</span>
                     </div>
-                    <div class="options__card">
-                        <div class="card__pixel"></div>
+                    <div class="options__card" @click="changePixel">
+                        <div class="card__pixel" data-rate="5"></div>
                         <span class="card__title">5 stars</span>
                     </div>
                 </div>
@@ -38,29 +40,40 @@
 
 <script setup>
 const { data: year } = await useLazyFetch('https://pixelyear.herokuapp.com/api/test/2019')
-let average = 0
+let average = ref(0)
 let count = 0
 const merged = Object.values(year.value).join('')
 for(let i = 0; i < merged.length; i++){
     if(merged[i] === 0) continue;
     count++
-    average += parseInt(merged[i], 10)
+    average.value += parseInt(merged[i], 10)
 }
-average = average/count
+average.value = average.value/count
 
+const changePixel = (ev) => {
+    let selected = document.querySelector('.pixel--selected')
+    if(selected === null){
+        selected = document.querySelector('.pixel--today')
+    }
+    selected.dataset.rate = ev.target.closest('.card__pixel').dataset.rate
+}
 
-console.log(average)
+onMounted(()=>{
+    document.querySelector('.card__pixel--avg').dataset.rate = ~~average.value
+})
 
 </script>
 
 <style lang="scss" scoped>
 main{
     padding: 0 1em;
+    padding-bottom: 5rem;
 }
 .options{
     font-family: "Monospace", sans-serif;
     display: flex;
     justify-content: space-between;
+    margin-top: 5rem;
 }
 .options__cards{
     display: flex;
@@ -70,11 +83,34 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
+    gap: 0.5em;
 }
 .card__pixel{
-    width: 2em;
-    height: 2em;
+    width: 3em;
+    height: 3em;
     border-radius: 0.2em;
     background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    text-shadow: 0px 0px 2px #000;
+    color: #222;
+}
+.card__pixel[data-rate="1"]{
+    background-color: #F86868;
+}
+.card__pixel[data-rate="2"]{
+    background-color: #F9D67C;
+}
+.card__pixel[data-rate="3"]{
+    background-color: #FB9C45;
+}
+.card__pixel[data-rate="4"]{
+    background-color: #A4F97C;
+}
+.card__pixel[data-rate="5"]{
+    background-color: #82FF47;
 }
 </style>
