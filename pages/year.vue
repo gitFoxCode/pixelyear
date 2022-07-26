@@ -67,6 +67,7 @@ onMounted(()=>{
 <style lang="scss" scoped>
 main{
     padding: 0 1em;
+    padding-top: 5em;
     padding-bottom: 5rem;
 }
 .options{

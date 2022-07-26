@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     },
     app: {
         head: {
+            title: 'PixelYear | Your year - consciously',
             htmlAttrs: {
                 lang: 'en'
             },
