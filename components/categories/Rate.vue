@@ -46,26 +46,6 @@ const selectPixel = (ev) =>{
 </script>
 
 <style lang="scss" scoped>
-h1{
-    font-size: 1.5em;
-    font-weight: normal;
-    margin-top: 1em;
-}
-.description{
-    display: block;
-    font-size: 0.9em;
-    color: #818181;
-    padding: 0 1em;
-}
-.content{
-    margin-top: 2rem;
-}
-.content__title{
-    display: block;
-    font-size: 1.2em;
-    text-align: left;
-    margin-left: 2em;
-}
 .content__rating-box{
     position: relative;
     display: flex;

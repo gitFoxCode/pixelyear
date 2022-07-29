@@ -9,17 +9,48 @@
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 4}"></div>
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 5}"></div>
         </div>
-        <!-- <CategoriesRate /> -->
-        <CategoriesCompleted />
+        <CategoriesRate  v-if="stage === 0"/>
+        <CategoriesMood  v-if="stage === 1"/>
+        <CategoriesCompleted v-if="stage === 5"/>
         <footer class="footer">
-            <button type="button" class="btn btn--primary">Next <nuxt-icon name="chevron-right" /></button>
+            <button type="button" class="btn" v-if="stage > 0" @click="prevStage()">Back</button>
+            <button type="button" class="btn btn--primary" @click="nextStage()">Next <nuxt-icon name="chevron-right" /></button>
         </footer>
     </main>
 </template>
 
 <script setup>
-const stage = ref(4)
+const stage = ref(0)
+
+const nextStage = ()=>{
+    stage.value++
+}
+const prevStage = ()=>{
+    stage.value--
+}
 </script>
+<style lang="scss">
+h1{
+    font-size: 1.5em;
+    font-weight: normal;
+    margin-top: 1em;
+}
+.description{
+    display: block;
+    font-size: 0.9em;
+    color: #818181;
+    padding: 0 1em;
+}
+.content{
+    margin-top: 2rem;
+}
+.content__title{
+    display: block;
+    font-size: 1.2em;
+    text-align: left;
+    margin-left: 2em;
+}
+</style>
 
 <style lang="scss" scoped>
 .daily__stages{
@@ -51,6 +82,7 @@ main{
     display: flex;
     justify-content: flex-end;
     margin-top: 2em;
+    gap: 2em;
 }
 .btn{
     display: flex;
@@ -61,12 +93,12 @@ main{
     background-color: transparent;
     color: #FFF;
     font-weight: bold;
+    cursor: pointer;
 }
 .btn--primary{
     padding: 0.6em 1.5em;
     padding-right: 1em;
     border: 1px solid #fff;
-    cursor: pointer;
     transition: background-color 0.4s;
     &:focus{
         background-color: #FFF;
