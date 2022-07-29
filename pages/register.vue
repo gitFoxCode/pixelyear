@@ -65,11 +65,8 @@ const onSubmit = async (ev)=>{
     })
 
     if(String(response.status)[0] !== '2'){
-        console.log()
-        console.log(response)
         error.value.status = true
-        error.value.message = (await response.json()).Error
-        console.log(error.value)
+        error.value.message = (await response.json()).error
     } else{
         navigateTo('/')
     }

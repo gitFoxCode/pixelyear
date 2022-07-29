@@ -13,28 +13,63 @@
                 </a>
             </span>
         <p class="text">Raport your every day how your day went, check your stats and draw conclusions!</p>
-        <section class="login">
-            <label>
-                <span class="input__title">E-mail</span>
-                <input type="email" placeholder="jan@kowalski.pl"/>
-            </label>
-            <label>
-                <span class="input__title">Password</span>
-                <input type="password" placeholder="********"/>
-            </label>
-        </section>
-        <section class="buttons">
-            <button type="button" class="btn--green"><nuxt-icon name="key" /> Log in</button>
-            <p>Don't have an account?  <a href="/register">Register</a></p>
-        </section>
-        <section class="buttons">
-            <button type="button"><nuxt-icon name="google" /> Login via Google</button>
-            <button type="button"><nuxt-icon name="facebook" /> Login via Facebook</button>
-        </section>
+        <form @submit="onSubmit">
+            <section class="login">
+                <label>
+                    <span class="input__title">E-mail</span>
+                    <input type="email" placeholder="jan@kowalski.pl" v-model="formData.email"/>
+                </label>
+                <label>
+                    <span class="input__title">Password</span>
+                    <input type="password" placeholder="********" v-model="formData.password"/>
+                </label>
+            </section>
+            <span class="error-msg" v-if="error.status">{{ error.message }}</span>
+            <section class="buttons">
+                <button type="submit" class="btn--green"><nuxt-icon name="key" /> Log in</button>
+                <p>Don't have an account?  <a href="/register">Register</a></p>
+            </section>
+            <section class="buttons">
+                <button type="button"><nuxt-icon name="google" /> Login via Google</button>
+                <button type="button"><nuxt-icon name="facebook" /> Login via Facebook</button>
+            </section>
+        </form>
     </main>
 </template>
 
 <script setup>
+const formData = ref({
+    email: '',
+    password: ''
+})
+
+const error = ref({
+    status: false,
+    message: ''
+})
+const onSubmit = async (ev)=>{
+    ev.preventDefault()
+
+    const response = await fetch('https://pixelyear.herokuapp.com/api/login', {
+        method: 'POST',
+        body: JSON.stringify(formData.value),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    if(String(response.status)[0] !== '2'){
+        console.log()
+        console.log(response)
+        error.value.status = true
+        error.value.message = (await response.json()).error
+        console.log(error.value)
+    } else{
+        console.log(response)
+        // navigateTo('/daily')
+    }
+}
+
 if(process.client){
 
     const colors = [
@@ -152,5 +187,19 @@ main{
 }
 .colored--item{
     transition: color 0.2s;
+}
+.error-msg{
+    margin-top: 2em;
+    background-color: rgba(255, 41, 41, 0.5);
+    width: 75%;
+    padding: 1em;
+    text-align: center;
+}
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 </style>
