@@ -11,6 +11,7 @@
         </div>
         <CategoriesRate  v-if="stage === 0"/>
         <CategoriesMood  v-if="stage === 1"/>
+        <CategoriesWeather v-if="stage === 2"/>
         <CategoriesCompleted v-if="stage === 5"/>
         <footer class="footer">
             <button type="button" class="btn" v-if="stage > 0" @click="prevStage()">Back</button>
