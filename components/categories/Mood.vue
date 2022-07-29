@@ -4,12 +4,12 @@
     <div class="content">
         <span class="content__title">Today I felt...</span>
         <div class="content__mood">
-            <nuxt-icon :name="currentValue.icon"/>
+            <div class="icon">{{ currentValue.icon }}</div>
             <span class="mood__type" data-value="4">{{ currentValue.text }}</span>
         </div>
         <div class="content__options">
             <div class="pixel__box" :class="{'selected': (optionPixel.value === currentValue.value)}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
-                <nuxt-icon :name="optionPixel.icon" />
+                <div class="icon">{{optionPixel.icon}}</div>
                 <div class="pixel" :data-value="optionPixel.value"></div>
             </div>
         </div>
@@ -19,24 +19,24 @@
 <script setup>
 const optionsValue = [{
     value: 1,
-    text: 'Very bad',
-    icon: 'emoji-sad2'
+    text: 'Very sad',
+    icon: '😔'
 },{
     value: 2,
-    text: '...',
-    icon: 'emoji-sad'
+    text: 'Sad',
+    icon: '😟'
 },{
     value: 3,
     text: 'Normal',
-    icon:'smile'
+    icon:'😐'
 },{
     value: 4,
     text: 'Good',
-    icon: 'smile'
+    icon: '🙂'
 },{
     value: 5,
     text: 'Very good!',
-    icon: 'emoji-happy'
+    icon: '😁'
 }]
 
 const currentValue = ref(optionsValue[2])
@@ -44,15 +44,6 @@ const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
     currentValue.value = optionsValue[clickedPixelBox.querySelector('.pixel').dataset.value-1]
 }
-// const changeValue = (ev) =>{
-//     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
-//     const pixelBoxes = document.querySelectorAll('.pixel__box')
-//     pixelBoxes.forEach((el)=>{
-//         el.classList.remove('selected')
-//     })
-//     currentValue.value = optionsValue[clickedPixelBox.querySelector('.pixel').dataset.value-1]
-//     clickedPixelBox.classList.add('selected')
-// }
 </script>
 
 <style lang="scss" scoped>
@@ -67,7 +58,7 @@ const changeValue = (ev) =>{
     text-transform: uppercase;
     font-weight: bold;
 }
-.content__mood .nuxt-icon{
+.content__mood .icon{
     font-size: 10rem;
     display: flex;
     align-items: center;
@@ -84,7 +75,7 @@ const changeValue = (ev) =>{
     flex-direction: column;
     align-items: center;
     gap: 0.5em;
-    .nuxt-icon{
+    .icon{
         font-size: 2em;
     }
 }
@@ -118,7 +109,7 @@ const changeValue = (ev) =>{
         background-color: #55FF2A;
     }
 }
-.selected .nuxt-icon{
+.selected .icon{
     transform: translateY(-0.5em)
 }
 .selected .pixel{
