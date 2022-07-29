@@ -3,11 +3,15 @@
         <TopNav />
         <main>
             <Callendar 
+             v-if="!error"
             :year="year"
-            :yearDate="2019" />
+            :yearDate="2019"/>
+            <div class="error__msg" v-else>
+                {{ error }}
+            </div>
             <section class="options">
                 <div class="options__card">
-                    <div class="card__pixel card__pixel--avg">{{average.toFixed(2)}}</div>
+                    <div class="card__pixel card__pixel--avg">{{3}}</div>
                     <span class="card__title">Average</span>
                 </div>
                 <div class="options__cards">
@@ -39,16 +43,21 @@
 </template>
 
 <script setup>
+const error = ref("")
 const { data: year } = await useLazyFetch('https://pixelyear.herokuapp.com/api/test/2019')
-let average = ref(0)
-let count = 0
-const merged = Object.values(year.value).join('')
-for(let i = 0; i < merged.length; i++){
-    if(merged[i] === 0) continue;
-    count++
-    average.value += parseInt(merged[i], 10)
+// TODO: Obsłużyć błędy
+if(year.value.statusCode === 500){
+    error.value = "An error occurred. Try again later."
 }
-average.value = average.value/count
+// let average = ref(0)
+// let count = 0
+// const merged = Object.values(year.value).join('')
+// for(let i = 0; i < merged.length; i++){
+//     if(merged[i] === 0) continue;
+//     count++
+//     average.value += parseInt(merged[i], 10)
+// }
+// average.value = average.value/count
 
 const changePixel = (ev) => {
     let selected = document.querySelector('.pixel--selected')
@@ -59,7 +68,7 @@ const changePixel = (ev) => {
 }
 
 onMounted(()=>{
-    document.querySelector('.card__pixel--avg').dataset.rate = ~~average.value
+    document.querySelector('.card__pixel--avg').dataset.rate =3
 })
 
 </script>
