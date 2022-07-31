@@ -1,16 +1,14 @@
 <template>
-    <h1>How was the weather today?</h1>
-    <span class="description">Mark what the main weather was that day</span>
+    <h1>What was <b>your</b> anxiety level today</h1>
+    <span class="description">Was today a stressful day or the opposite?</span>
     <div class="content">
-        <span class="content__title">Today's weather was...</span>
-        <div class="content__weather">
-            <div class="icon">{{ currentValue.icon }}</div>
-            <span class="weather__type" data-value="4">{{ currentValue.text }}</span>
+        <span class="content__title">Today my anxiety was...</span>
+        <div class="content">
+            <span class="text">{{ currentValue.text }}</span>
         </div>
         <div class="content__options">
             <div class="pixel__box" :class="{'selected': (optionPixel.value === currentValue.value)}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
-                <div class="icon">{{optionPixel.icon}}</div>
-                <div class="pixel" :data-value="optionPixel.value"></div>
+                <div class="pixel" :data-value="optionPixel.value">{{optionPixel.value}}</div>
             </div>
         </div>
     </div>
@@ -19,28 +17,16 @@
 <script setup>
 const optionsValue = [{
     value: 1,
-    text: 'snowy',
-    icon: '🌨'
+    text: 'None'
 },{
     value: 2,
-    text: 'stormy',
-    icon: '🌩'
+    text: 'Low'
 },{
     value: 3,
-    text: 'rainy',
-    icon:'🌧'
+    text: 'Moderate'
 },{
     value: 4,
-    text: 'cloudy',
-    icon: '☁'
-},{
-    value: 5,
-    text: 'cloudy, but there was also sunshine',
-    icon: '⛅'
-},{
-    value: 6,
-    text: 'sunny',
-    icon: '☀'
+    text: 'Hight'
 }]
 
 const currentValue = ref(optionsValue[2])
@@ -51,16 +37,10 @@ const changeValue = (ev) =>{
 </script>
 
 <style lang="scss" scoped>
-.weather__type{
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-.content__weather .icon{
-    font-size: 10rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.text{
+    display: block;
+    font-size: 3em;
+    margin: 1em 0;
 }
 .content__options{
     display: flex;
@@ -92,22 +72,16 @@ const changeValue = (ev) =>{
     color: #222;
     cursor: pointer;
     &[data-value="1"]{
-        background-color: rgb(173, 251, 255);
+        background-color: #D4FF2B;
     }
     &[data-value="2"]{
-        background-color: #AA4978;
+        background-color: #FBFF45;
     }
     &[data-value="3"]{
-        background-color: #666D89;
+        background-color: #FF772A;
     }
     &[data-value="4"]{
-        background-color: #8F8A87;
-    }
-    &[data-value="5"]{
-        background-color: rgb(255, 239, 97);
-    }
-    &[data-value="6"]{
-        background-color: rgb(255, 199, 46);
+        background-color: #FF2A2B;
     }
 }
 .selected .icon{

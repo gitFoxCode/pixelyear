@@ -12,6 +12,8 @@
         <CategoriesRate  v-if="stage === 0"/>
         <CategoriesMood  v-if="stage === 1"/>
         <CategoriesWeather v-if="stage === 2"/>
+        <CategoriesAnxiety v-if="stage === 3"/>
+        <CategoriesExercise v-if="stage === 4"/>
         <CategoriesCompleted v-if="stage === 5"/>
         <footer class="footer">
             <button type="button" class="btn" v-if="stage > 0" @click="prevStage()">Back</button>
@@ -21,7 +23,7 @@
 </template>
 
 <script setup>
-const stage = ref(0)
+const stage = ref(4)
 
 const nextStage = ()=>{
     stage.value++
