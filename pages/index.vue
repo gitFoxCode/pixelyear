@@ -26,7 +26,7 @@
             </section>
             <span class="error-msg" v-if="error.status">{{ error.message }}</span>
             <section class="buttons">
-                <button type="submit" class="btn--green"><nuxt-icon name="key" /> Log in</button>
+                <button type="submit" class="btn--green" :class="{'loading': loadingState}"><nuxt-icon name="key" /> Log in</button>
                 <p>Don't have an account?  <a href="/register">Register</a></p>
             </section>
             <section class="buttons">
@@ -47,8 +47,13 @@ const error = ref({
     status: false,
     message: ''
 })
+
+const loadingState = ref(false)
+
 const onSubmit = async (ev)=>{
     ev.preventDefault()
+
+    loadingState.value = true
 
     const response = await fetch('https://pixelyear.herokuapp.com/api/login', {
         method: 'POST',
@@ -57,6 +62,8 @@ const onSubmit = async (ev)=>{
             'Content-Type': 'application/json'
         }
     })
+
+    loadingState.value = false
 
     if(String(response.status)[0] !== '2'){
         console.log()

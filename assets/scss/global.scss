@@ -7,3 +7,28 @@ body{
 b{
     font-weight: bold;
 }
+.loading{
+    padding-left: 3em;
+    position: relative;
+    &::after{
+        content: "";
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-top: 2px solid greenyellow;
+        animation: rotating 1s infinite;
+    }
+    & .nuxt-icon{
+        opacity: 0;
+    }
+}
+@keyframes rotating{
+    0%{
+        transfrom: rotate(0deg)
+    }
+    100%{
+        transform: rotate(380deg);
+    }
+}

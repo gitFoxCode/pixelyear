@@ -19,7 +19,7 @@
             </section>
             <span class="error-msg" v-if="error.status">{{ error.message }}</span>
             <section class="buttons">
-                <button type="submit" class="btn--green"><nuxt-icon name="lock" /> Register</button>
+                <button type="submit" class="btn--green" :class="{'loading': loadingState}"><nuxt-icon name="lock" /> Register</button>
                 <p>Do you already have an account? <a href="/">Log in</a></p>
             </section>
             <section class="buttons">
@@ -42,6 +42,8 @@ const error = ref({
     message: ''
 })
 
+const loadingState = ref(false)
+
 const validate = (ev) => {
     if(ev.target.type === "password"){
         const passwordInputs = document.querySelectorAll("input[type='password']")
@@ -56,6 +58,8 @@ const validate = (ev) => {
 const onSubmit = async (ev)=>{
     ev.preventDefault()
 
+    loadingState.value = true
+
     const response = await fetch('https://pixelyear.herokuapp.com/api/register', {
          method: 'POST',
         body: JSON.stringify(formData.value),
@@ -63,6 +67,8 @@ const onSubmit = async (ev)=>{
             'Content-Type': 'application/json'
         }
     })
+
+    loadingState.value = false
 
     if(String(response.status)[0] !== '2'){
         error.value.status = true
