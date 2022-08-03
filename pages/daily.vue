@@ -10,11 +10,12 @@
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 5}"></div>
         </div>
         <CategoriesRate  v-if="stage === 0"/>
-        <CategoriesMood  v-if="stage === 1"/>
-        <CategoriesWeather v-if="stage === 2"/>
-        <CategoriesAnxiety v-if="stage === 3"/>
+        <CategoriesAnxiety v-if="stage === 1"/>
+        <CategoriesMood  v-if="stage === 2"/>
+        <CategoriesWeather v-if="stage === 3"/>
         <CategoriesExercise v-if="stage === 4"/>
-        <CategoriesCompleted v-if="stage === 5"/>
+        <CategoriesReading v-if="stage === 5"/>
+        <CategoriesCompleted v-if="stage === 6"/>
         <footer class="footer">
             <button type="button" class="btn" v-if="stage > 0" @click="prevStage()">Back</button>
             <button type="button" class="btn btn--primary" @click="nextStage()">Next <nuxt-icon name="chevron-right" /></button>
@@ -23,7 +24,7 @@
 </template>
 
 <script setup>
-const stage = ref(4)
+const stage = ref(5)
 
 const nextStage = ()=>{
     stage.value++
