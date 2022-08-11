@@ -67,6 +67,8 @@ const changeValue = (ev) =>{
     justify-content: center;
     gap: 1em;
     margin-top: 2em;
+    flex-wrap: wrap;
+    padding: 2em;
 }
 .pixel__box{
     display: flex;

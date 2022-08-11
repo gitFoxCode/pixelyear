@@ -20,7 +20,7 @@
 <script setup>
 const optionsValue = ref([{
     value: 1,
-    text: 'Any kind of exercise',
+    text: 'Any kind',
     class: 'pixel--blue'
 },{
     value: 2,
@@ -70,7 +70,7 @@ const changeValue = (ev) =>{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5em;
+    gap: clamp(1em, 5em, 2em);
 }
 .big-pixel{
     position: relative;

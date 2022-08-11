@@ -49,7 +49,7 @@ const changeValue = (ev) =>{
 .content__options{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-content: center;
     gap: 2em;
     margin-top: 2em;

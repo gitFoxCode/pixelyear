@@ -73,6 +73,7 @@ const onSubmit = async (ev)=>{
         console.log(error.value)
     } else{
         console.log(response)
+        console.log(await response.json())
         // navigateTo('/daily')
     }
 }

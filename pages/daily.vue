@@ -9,7 +9,6 @@
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 4}"></div>
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 5}"></div>
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 6}"></div>
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 7}"></div>
         </div>
         <CategoriesRate  v-if="stage === 0"/>
         <CategoriesAnxiety v-if="stage === 1"/>
@@ -21,7 +20,7 @@
         <CategoriesCompleted v-if="stage === 7"/>
         <footer class="footer">
             <button type="button" class="btn" v-if="stage > 0" @click="prevStage()">Back</button>
-            <button type="button" class="btn btn--primary" @click="nextStage()">Next <nuxt-icon name="chevron-right" /></button>
+            <button type="button" class="btn btn--primary" v-if="stage !== 7" @click="nextStage()">Next <nuxt-icon name="chevron-right" /></button>
         </footer>
     </main>
 </template>
@@ -90,6 +89,7 @@ main{
     justify-content: flex-end;
     margin-top: 2em;
     gap: 2em;
+    margin-bottom: 2em;
 }
 .btn{
     display: flex;

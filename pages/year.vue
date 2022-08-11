@@ -44,7 +44,14 @@
 
 <script setup>
 const error = ref("")
-const { data: year } = await useLazyFetch('https://pixelyear.herokuapp.com/api/test/2019')
+
+const { data: year } = await useLazyFetch('https://pixelyear.herokuapp.com/api/test/2019', {
+    headers:{
+        'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxQHRlc3QucGwiLCJjcmF0aW9uX2RhdGUiOiIyMDIyLTA4LTExIDEyOjUxOjUxLjU5MzA5MSIsImV4cGlyYXRpb25fZGF0ZSI6IjIwMjItMDgtMTEgMTM6MjE6NTEuNTkzMTEwIn0.n4HR5UkarGL82IOQgCLpvzDbHDRAFDIe5eH2RpaW_y0'
+    }
+})
+
+
 // TODO: Obsłużyć błędy
 if(year.value.statusCode === 500){
     error.value = "An error occurred. Try again later."
