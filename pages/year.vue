@@ -5,7 +5,7 @@
             <Callendar 
              v-if="!error"
             :year="year"
-            :yearDate="2019"/>
+            :yearDate="2022"/>
             <div class="error__msg" v-else>
                 {{ error }}
             </div>
@@ -43,13 +43,20 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: ["auth"]
+  // or middleware: 'auth'
+})
+
 const error = ref("")
 
-const { data: year } = await useLazyFetch('https://pixelyear.herokuapp.com/api/test/2019', {
+const { data: year } = await useLazyFetch('https://pixelyear.herokuapp.com/api/2022/rate', {
     headers:{
-        'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxQHRlc3QucGwiLCJjcmF0aW9uX2RhdGUiOiIyMDIyLTA4LTExIDEyOjUxOjUxLjU5MzA5MSIsImV4cGlyYXRpb25fZGF0ZSI6IjIwMjItMDgtMTEgMTM6MjE6NTEuNTkzMTEwIn0.n4HR5UkarGL82IOQgCLpvzDbHDRAFDIe5eH2RpaW_y0'
+        'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5wbCIsImNyYXRpb25fZGF0ZSI6IjIwMjItMDgtMTEgMTU6NTI6NDMuMTY4MjMyIiwiZXhwaXJhdGlvbl9kYXRlIjoiMjAyMi0wOC0xMSAxNjoyMjo0My4xNjgyNDcifQ.8ZmZ8OnfSXmK40CQn17hHJXuScigZdBR_hsfuQ60ZGw'
     }
 })
+
+console.log(year)
 
 
 // TODO: Obsłużyć błędy

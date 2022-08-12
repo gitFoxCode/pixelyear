@@ -72,8 +72,15 @@ const onSubmit = async (ev)=>{
         error.value.message = (await response.json()).error
         console.log(error.value)
     } else{
-        console.log(response)
-        console.log(await response.json())
+        const token = (await response.json()).token
+
+        const { data } = await useLazyFetch('https://pixelyear.herokuapp.com/api/2022/rate', { headers: {
+            'Authorization': 'Bearer ' + token
+        } })
+
+        console.log(data)
+            
+       
         // navigateTo('/daily')
     }
 }
