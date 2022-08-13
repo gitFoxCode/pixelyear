@@ -26,6 +26,8 @@
 </template>
 
 <script setup>
+import { useAuth } from '~/store/auth'
+
 const stage = ref(6)
 
 const nextStage = ()=>{

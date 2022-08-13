@@ -38,6 +38,12 @@
 </template>
 
 <script setup>
+import { useAuth } from '~/store/auth'
+
+definePageMeta({
+  middleware: ["guest"]
+})
+
 const formData = ref({
     email: '',
     password: ''
@@ -72,13 +78,13 @@ const onSubmit = async (ev)=>{
         error.value.message = (await response.json()).error
         console.log(error.value)
     } else{
-        const token = (await response.json()).token
+        const user = (await response.json())
 
-        const { data } = await useLazyFetch('https://pixelyear.herokuapp.com/api/2022/rate', { headers: {
-            'Authorization': 'Bearer ' + token
-        } })
+        // const { data } = await useLazyFetch('https://pixelyear.herokuapp.com/api/2022/rate', { headers: {
+        //     'Authorization': 'Bearer ' + token
+        // } })
 
-        console.log(data)
+        useAuth().login(user)
             
        
         // navigateTo('/daily')

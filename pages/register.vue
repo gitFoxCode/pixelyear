@@ -31,6 +31,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: ["guest"]
+})
+
 const formData = ref({
     email: '',
     password: '',

@@ -11,6 +11,8 @@
     "sass": "^1.54.0"
   },
   "dependencies": {
-    "nuxt-icons": "^2.0.1"
+    "@pinia/nuxt": "^0.4.0",
+    "nuxt-icons": "^2.0.1",
+    "pinia": "^2.0.18"
   }
 }

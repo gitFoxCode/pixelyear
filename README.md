@@ -1,5 +1,11 @@
 # PixelYear PWA
 
+### Tech stack:
+Frontend: 
+Framework - Vue -> Nuxt 3
+State menagement - pinia
+
+
 ## Setup
 
 Make sure to install the dependencies:

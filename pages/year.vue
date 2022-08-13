@@ -44,15 +44,16 @@
 
 <script setup>
 definePageMeta({
-  middleware: ["auth"]
-  // or middleware: 'auth'
+  middleware: ["user"]
 })
+
+import { useAuth } from '~/store/auth'
 
 const error = ref("")
 
 const { data: year } = await useLazyFetch('https://pixelyear.herokuapp.com/api/2022/rate', {
     headers:{
-        'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5wbCIsImNyYXRpb25fZGF0ZSI6IjIwMjItMDgtMTEgMTU6NTI6NDMuMTY4MjMyIiwiZXhwaXJhdGlvbl9kYXRlIjoiMjAyMi0wOC0xMSAxNjoyMjo0My4xNjgyNDcifQ.8ZmZ8OnfSXmK40CQn17hHJXuScigZdBR_hsfuQ60ZGw'
+        'Authorization': 'Bearer ' + useAuth().getToken
     }
 })
 
