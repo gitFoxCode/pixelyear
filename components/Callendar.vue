@@ -59,6 +59,7 @@ const selectPixel = (ev)=>{
     if(ev.target.dataset.rate === undefined){
         return;
     }
+    console.log(ev.target)
     ev.target.classList.add("pixel--selected")
 }
 </script>

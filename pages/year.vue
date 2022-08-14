@@ -64,15 +64,6 @@ console.log(year)
 if(year.value.statusCode === 500){
     error.value = "An error occurred. Try again later."
 }
-// let average = ref(0)
-// let count = 0
-// const merged = Object.values(year.value).join('')
-// for(let i = 0; i < merged.length; i++){
-//     if(merged[i] === 0) continue;
-//     count++
-//     average.value += parseInt(merged[i], 10)
-// }
-// average.value = average.value/count
 
 const changePixel = (ev) => {
     let selected = document.querySelector('.pixel--selected')
@@ -83,7 +74,7 @@ const changePixel = (ev) => {
 }
 
 onMounted(()=>{
-    document.querySelector('.card__pixel--avg').dataset.rate =3
+    document.querySelector('.card__pixel--avg').dataset.rate = 3
 })
 
 </script>
