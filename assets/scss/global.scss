@@ -24,6 +24,9 @@ b{
         opacity: 0;
     }
 }
+html,body, #__nuxt {
+    height:100%;
+}
 @keyframes rotating{
     0%{
         transfrom: rotate(0deg)

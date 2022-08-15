@@ -1,6 +1,7 @@
 <template>
-    <main>
+    <section class="section">
         <TopNav />
+    <main>
         <div class="daily__stages">
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 0}"></div>
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 1}"></div>
@@ -23,6 +24,7 @@
             <button type="button" class="btn btn--primary" v-if="stage !== 7" @click="nextStage()">Next <nuxt-icon name="chevron-right" /></button>
         </footer>
     </main>
+    </section>
 </template>
 
 <script setup>
@@ -76,7 +78,7 @@ h1{
 .daily__stage--filled{
     background-color: #6C6C6C;
 }
-main{
+.section{
     padding-top: 5em;
     display: flex;
     flex-direction: column;
