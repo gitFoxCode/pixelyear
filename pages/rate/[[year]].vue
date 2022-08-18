@@ -84,7 +84,7 @@ const changePixel = async (ev) => {
     }
     const formatDate = `${selected.dataset.date.replace(/ -.+/, '').replace('.', '/')}/${selectedYear}`
 
-    const response = await fetch('https://pixelyear.herokuapp.com/api/2022/rate', {
+    const response = await fetch(`https://pixelyear.herokuapp.com/api/${selectedYear}/rate`, {
         method: 'PATCH',
         body: JSON.stringify({
             date: formatDate,

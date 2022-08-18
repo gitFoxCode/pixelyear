@@ -17,28 +17,28 @@
 
 <script setup>
 const optionsValue = ref([{
-    value: 0,
+    value: 1,
     text: '0 pages'
 },{
-    value: 1,
+    value: 2,
     text: '1-10 p.'
 },{
-    value: 2,
+    value: 3,
     text: '11-20 p.'
 },{
-    value: 3,
+    value: 4,
     text: '21-30 p.'
 },{
-    value: 4,
+    value: 5,
     text: '30-50 p.'
 },{
-    value: 5,
+    value: 6,
     text: '50-70 p.'
 },{
-    value: 6,
+    value: 7,
     text: '70-99 p.'
 },{
-    value: 7,
+    value: 8,
     text: '100+ p.'
 }])
 
@@ -93,24 +93,27 @@ const changeValue = (ev) =>{
     color: #222;
     cursor: pointer;
     &[data-value="1"]{
-        background-color: rgb(107, 243, 255);
+        background-color: rgb(202, 202, 202);
     }
     &[data-value="2"]{
-        background-color: rgb(107, 255, 216);
+        background-color: rgb(107, 243, 255);
     }
     &[data-value="3"]{
-        background-color: rgb(107, 255, 132);
+        background-color: rgb(107, 255, 216);
     }
     &[data-value="4"]{
-        background-color: rgb(176, 255, 107);
+        background-color: rgb(107, 255, 132);
     }
     &[data-value="5"]{
-        background-color: rgb(213, 255, 107);
+        background-color: rgb(176, 255, 107);
     }
     &[data-value="6"]{
-        background-color: rgb(187, 255, 0);
+        background-color: rgb(213, 255, 107);
     }
     &[data-value="7"]{
+        background-color: rgb(187, 255, 0);
+    }
+    &[data-value="8"]{
         background-color: rgb(150, 106, 232);
         box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(150, 106, 232, 0.4) 0px 25px 50px -12px;
     }

@@ -122,11 +122,12 @@ th,td{
         border-radius: 0.2em;
     }
 }
-
-.rate .pixel{
+.pixel{
     &[data-value="0"]{
         background-color: transparent;
     }
+}
+.rate .pixel, .mood .pixel{
     &[data-value="1"]{
         background-color: #FF2A2B;
     }
@@ -144,6 +145,81 @@ th,td{
     }
     &[data-value="x"]{
         background-color: #000;
+    }
+}
+.weather .pixel{
+    &[data-value="1"]{
+        background-color: rgb(173, 251, 255);
+    }
+    &[data-value="2"]{
+        background-color: #AA4978;
+    }
+    &[data-value="3"]{
+        background-color: #666D89;
+    }
+    &[data-value="4"]{
+        background-color: #8F8A87;
+    }
+    &[data-value="5"]{
+        background-color: rgb(255, 239, 97);
+    }
+    &[data-value="6"]{
+        background-color: rgb(255, 199, 46);
+    }
+}
+.health .pixel{
+    &[data-value="1"]{
+        background-color: rgb(107, 243, 255);
+    }
+    &[data-value="2"]{
+        background-color: rgb(44, 252, 196);
+    }
+    &[data-value="3"]{
+        background-color: rgb(48, 140, 252);
+    }
+    &[data-value="4"]{
+        background-color: rgb(83, 34, 241);
+    }
+}
+.anxiety .pixel{
+    &[data-value="1"]{
+        background-color: #D4FF2B;
+    }
+    &[data-value="2"]{
+        background-color: #FBFF45;
+    }
+    &[data-value="3"]{
+        background-color: #FF772A;
+    }
+    &[data-value="4"]{
+        background-color: #FF2A2B;
+    }
+}
+.reading .pixel{
+    &[data-value="1"]{
+        background-color: rgb(202, 202, 202);
+    }
+    &[data-value="2"]{
+        background-color: rgb(107, 243, 255);
+    }
+    &[data-value="3"]{
+        background-color: rgb(107, 255, 216);
+    }
+    &[data-value="4"]{
+        background-color: rgb(107, 255, 132);
+    }
+    &[data-value="5"]{
+        background-color: rgb(176, 255, 107);
+    }
+    &[data-value="6"]{
+        background-color: rgb(213, 255, 107);
+    }
+    &[data-value="7"]{
+        background-color: rgb(187, 255, 0);
+    }
+    &[data-value="8"]{
+        background-color: rgb(150, 106, 232);
+        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(150, 106, 232, 0.4) 0px 25px 50px -12px;
     }
 }
 </style>
