@@ -11,11 +11,76 @@
                     <div class="pixel-text">{{optionPixel.text}}</div>
                 </div>
             </div>
+            <div class="roller" @scroll="checkScroll($event)">
+                <div class="roller-overlay">
+                    <div class="value value--near">{{currentPage === 0 ? '&nbsp;' : currentPage-1}}</div>
+                    <div class="value value--selected">{{currentPage}} pages</div>
+                    <div class="value value--near">{{currentPage === pages.length ? '&nbsp;' : currentPage+1}}</div>
+                </div>
+                <template v-for="page in pages" :key="page">
+                    <div class="value">{{ page }}</div>
+                </template>
+            </div>
         </div>
     </div>
 </template>
 
+<style lang="scss" scoped>
+.roller{
+    position: relative;
+    max-height: calc(3em*4);
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    z-index: 1;
+}
+.roller-overlay{
+    position: sticky;
+    height: calc(3em*4);
+    top: 0;
+    background-color: #171717;
+    opacity: 1;
+    z-index: 22;
+}
+.value{
+    z-index: 1;
+    padding: 1em;
+    scroll-snap-align: center;
+    opacity: 0.2;
+}
+.value--selected{
+    background-color: #333;
+    opacity: 1;
+}
+.value--near{
+    opacity: 0.5;
+}
+</style>
+
 <script setup>
+const pages = ref([...Array(100).keys()])
+
+const currentPage = ref(0)
+const checkScroll = (ev)=>{
+    const upper = Math.round(ev.target.scrollTop/56)
+    
+    currentPage.value = upper
+
+   
+    // console.log(lastupper)
+    // lastupper = upper
+    // document.querySelector(`.value:nth-of-type(${upper+2})`).style.background = '#333'
+    // document.querySelector(`.value:not(:nth-of-type(${upper+2}))`).style.background = 'transparent'
+
+    
+    // console.log(ev.target)
+    // console.log(ev.target.scrollHeight)
+    // ev.target.scrollIntoView({
+    //         behavior: 'auto',
+    //         block: 'center',
+    //         inline: 'center'
+    //     })
+}
+
 const optionsValue = ref([{
     value: 1,
     text: '0 pages'
