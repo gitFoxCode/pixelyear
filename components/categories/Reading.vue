@@ -4,81 +4,45 @@
     <div class="content">
         <span class="content__title">Today I read...</span>
         <div class="content">
-            <div class="text">{{ currentValue.text }}</div>
-            <div class="content__options">
-                <div class="pixel__box" :class="{'selected': (optionPixel.value === currentValue.value)}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
-                    <div class="pixel" :class="optionPixel.class" :data-value="optionPixel.value"></div>
-                    <div class="pixel-text">{{optionPixel.text}}</div>
-                </div>
-            </div>
-            <div class="roller" @scroll="checkScroll($event)">
-                <div class="roller-overlay">
-                    <div class="value value--near">{{currentPage === 0 ? '&nbsp;' : currentPage-1}}</div>
-                    <div class="value value--selected">{{currentPage}} pages</div>
-                    <div class="value value--near">{{currentPage === pages.length ? '&nbsp;' : currentPage+1}}</div>
-                </div>
-                <template v-for="page in pages" :key="page">
-                    <div class="value">{{ page }}</div>
-                </template>
+            <div class="text">{{ pages }} pages</div>
+            <div class="input__box">
+                <input type="number" min="0" max="1000" v-model="pages" @input="changePixel" />
+                <div class="pixel pixel-number" data-value="1"></div>
             </div>
         </div>
     </div>
 </template>
 
-<style lang="scss" scoped>
-.roller{
-    position: relative;
-    max-height: calc(3em*4);
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    z-index: 1;
-}
-.roller-overlay{
-    position: sticky;
-    height: calc(3em*4);
-    top: 0;
-    background-color: #171717;
-    opacity: 1;
-    z-index: 22;
-}
-.value{
-    z-index: 1;
-    padding: 1em;
-    scroll-snap-align: center;
-    opacity: 0.2;
-}
-.value--selected{
-    background-color: #333;
-    opacity: 1;
-}
-.value--near{
-    opacity: 0.5;
-}
-</style>
-
 <script setup>
-const pages = ref([...Array(100).keys()])
+const pages = ref(0)
 
-const currentPage = ref(0)
-const checkScroll = (ev)=>{
-    const upper = Math.round(ev.target.scrollTop/56)
-    
-    currentPage.value = upper
+const changePixel = () =>{
+    const pixel = document.querySelector('.pixel-number')
 
-   
-    // console.log(lastupper)
-    // lastupper = upper
-    // document.querySelector(`.value:nth-of-type(${upper+2})`).style.background = '#333'
-    // document.querySelector(`.value:not(:nth-of-type(${upper+2}))`).style.background = 'transparent'
-
-    
-    // console.log(ev.target)
-    // console.log(ev.target.scrollHeight)
-    // ev.target.scrollIntoView({
-    //         behavior: 'auto',
-    //         block: 'center',
-    //         inline: 'center'
-    //     })
+    if(pages.value === 0){
+        pixel.dataset.value = 1
+    }
+    if(pages.value >= 1 && pages.value <= 10){
+        pixel.dataset.value = 2
+    }
+    if(pages.value >= 11 && pages.value <= 20){
+        pixel.dataset.value = 3
+    }
+    if(pages.value >= 21 && pages.value <= 30){
+        pixel.dataset.value = 4
+    }
+    if(pages.value >= 31 && pages.value <= 50){
+        pixel.dataset.value = 5
+    }
+    if(pages.value >= 51 && pages.value <= 70){
+        pixel.dataset.value = 6
+    }
+    if(pages.value >= 71 && pages.value <= 99){
+        pixel.dataset.value = 7
+    }
+    if(pages.value >= 100){
+        pixel.dataset.value = 8
+    }
 }
 
 const optionsValue = ref([{
@@ -95,10 +59,10 @@ const optionsValue = ref([{
     text: '21-30 p.'
 },{
     value: 5,
-    text: '30-50 p.'
+    text: '31-50 p.'
 },{
     value: 6,
-    text: '50-70 p.'
+    text: '51-70 p.'
 },{
     value: 7,
     text: '70-99 p.'
@@ -122,15 +86,6 @@ const changeValue = (ev) =>{
     display: block;
     font-size: 3em;
     margin: 1em 0;
-}
-.content__options{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    gap: 2em;
-    margin-top: 2em;
-    padding: 0 2em;
 }
 .content{
     display: flex;
@@ -184,25 +139,21 @@ const changeValue = (ev) =>{
     }
 }
 
-.pixel--blue{
-    background-color: rgb(67, 97, 248);
-    z-index: -1;
+.input__box{
+    display: flex;
+    gap: 1em;
+    justify-content: center;
 }
-.selected .icon{
-    transform: translateX(-0.5em)
+.input__box input{
+    padding: 1em 1.5em;
+    background-color: transparent;
+    border: 2px solid #FFF;
+    font-family: "Monospace", sans-serif;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1em;
 }
-.selected .pixel{
-    font-size: 1.3em;
-    transform: translateX(-0.5em);
-    &::after{
-        content: "";
-        position: absolute;
-        left: -0.4em;
-        top: -0.4em;
-        bottom: -0.4em;
-        right: -0.4em;
-        border: 3px solid #474747;
-        border-radius: 0.7em;
-    }
+.pixel-number{
+    transition: background-color 0.5s;
 }
 </style>
