@@ -6,6 +6,7 @@
             <span class="text">Come back again tomorrow</span>
         </div>
         <div class="actions">
+            <a href="#"><nuxt-icon name="bookmark" fill/> Diary</a>
             <a href="#">See stats</a>
         </div>
     </section>
@@ -27,10 +28,24 @@
     font-size: 0.9em;
     color: #666;
 }
+.actions{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
 .actions a{
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    align-items: center;
     text-decoration: none;
     padding: 0.8rem 3.5rem;
     border: 1px solid #FFF;
     color: #FFF;
+    .nuxt-icon{
+        font-size: 1em;
+    }
 }
 </style>

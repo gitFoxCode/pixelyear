@@ -116,4 +116,10 @@ h1{
         color: #222;
     }
 }
+main{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    min-height: calc(100vh - 5em);
+}
 </style>
