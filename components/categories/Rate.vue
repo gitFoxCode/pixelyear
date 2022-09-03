@@ -20,6 +20,7 @@
 </template>
 
 <script setup>
+const emits = defineEmits(["emitPixel"])
 const pixels = ref()
 const rateTexts = ['very bad', 'bad', 'pretty average', 'good', 'great!']
 if(process.client){
@@ -42,6 +43,7 @@ const selectPixel = (ev) =>{
             rateValue.classList.remove('value--transform')
         }, 250)
     }, 250)
+    emits('emitPixel', {category: 'rate', pixel: ev.target.dataset.rate})
 }
 </script>
 

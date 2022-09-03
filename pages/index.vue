@@ -85,9 +85,7 @@ const onSubmit = async (ev)=>{
         // } })
 
         useAuth().login(user)
-            
-       
-        // navigateTo('/daily')
+        navigateTo('/daily')
     }
 }
 

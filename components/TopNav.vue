@@ -8,7 +8,7 @@
         <nav class="navigation" v-show="activeMenu">
             <div class="user">
                 <div class="user__avatar"></div>
-                <span class="user__email">john@extra.pl</span>
+                <span class="user__email">{{ user.email }}</span>
             </div>
             <ul>
                 <li><nuxt-link to="#"> <nuxt-icon name="daily"/> Daily</nuxt-link></li>
@@ -21,6 +21,10 @@
 </template>
 
 <script setup>
+import { useAuth } from '~/store/auth'
+
+const user = useAuth().getUser
+
 const activeMenu = ref(false)
 const toggleMenu = ()=>{
     activeMenu.value = !activeMenu.value

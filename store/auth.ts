@@ -8,7 +8,8 @@ export const useAuth = defineStore({
   }),
 
   getters: {
-    getToken: state => state.user.token
+    getToken: state => state.user.token,
+    getUser: state => state.user
   },
 
   actions: {

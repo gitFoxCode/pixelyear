@@ -11,7 +11,7 @@
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 5}"></div>
             <div class="daily__stage" :class="{'daily__stage--filled': stage > 6}"></div>
         </div>
-        <CategoriesRate  v-if="stage === 0"/>
+        <CategoriesRate  v-if="stage === 0" @emitPixel="sendPixel"/>
         <CategoriesAnxiety v-if="stage === 1"/>
         <CategoriesMood  v-if="stage === 2"/>
         <CategoriesWeather v-if="stage === 3"/>
@@ -29,8 +29,36 @@
 
 <script setup>
 import { useAuth } from '~/store/auth'
+definePageMeta({
+    middleware: ["user"]
+})
 
-const stage = ref(6)
+// Prepare pixel to send
+const pixelToSend = {
+    category: '',
+    year: new Date().getFullYear(),
+    date: `${String(new Date().getDate()).padStart(2, '0')}/${String(new Date().getMonth() + 1).padStart(2, '0')}/${new Date().getFullYear()}`,
+    pixel_values: ''
+}
+// Get selected pixel from component
+const sendPixel = (ev) => {
+    pixelToSend.pixel_values = ev.pixel
+    pixelToSend.category = ev.category
+}
+
+// Check if user today fullfiled all categories
+const response = await fetch('https://pixelyear.herokuapp.com/api/updated_today/all', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + useAuth().getToken
+    }
+})
+const stage = ref(0)
+const data = await response.json()
+if(data.not_updated.length === 0){
+    stage.value = 7
+}
 
 const nextStage = ()=>{
     stage.value++
