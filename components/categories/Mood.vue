@@ -17,6 +17,11 @@
 </template>
 
 <script setup>
+const props = defineProps({
+    dbValue: String // Value from database if a user has already filled a category 
+})
+const emits = defineEmits(["emitPixel"])
+
 const optionsValue = [{
     value: 1,
     text: 'Very sad',
@@ -39,10 +44,17 @@ const optionsValue = [{
     icon: '😁'
 }]
 
-const currentValue = ref(optionsValue[2])
+const empty = {
+    value: 0,
+    text: 'Not selected',
+    icon: '🤐'
+}
+
+const currentValue = props.dbValue ? ref(optionsValue[props.dbValue-1]) : ref(empty)
 const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
     currentValue.value = optionsValue[clickedPixelBox.querySelector('.pixel').dataset.value-1]
+    emits('emitPixel', {category: 'mood', pixel: currentValue.value.value})
 }
 </script>
 

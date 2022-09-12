@@ -3,22 +3,23 @@
         <TopNav />
     <main>
         <div class="daily__stages">
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 0}"></div>
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 1}"></div>
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 2}"></div>
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 3}"></div>
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 4}"></div>
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 5}"></div>
-            <div class="daily__stage" :class="{'daily__stage--filled': stage > 6}"></div>
+            <div class="daily__stage" 
+            v-for="categoryId in 6" 
+            :key="categoryId" 
+            :class="{
+            'daily__stage--filled': stage > categoryId, 
+            'daily__stage--filled': databaseValues[categoryId]}"></div>
+
         </div>
-        <CategoriesRate  v-if="stage === 0" @emitPixel="sendPixel"/>
-        <CategoriesAnxiety v-if="stage === 1"/>
-        <CategoriesMood  v-if="stage === 2"/>
-        <CategoriesWeather v-if="stage === 3"/>
-        <CategoriesExercise v-if="stage === 4"/>
-        <CategoriesReading v-if="stage === 5"/>
-        <CategoriesHealth v-if="stage === 6"/>
+        <CategoriesRate  :dbValue="databaseValues[0]" v-if="stage === 0" @emitPixel="sendPixel"/>
+        <CategoriesAnxiety :dbValue="databaseValues[1]" v-if="stage === 1" @emitPixel="sendPixel"/>
+        <CategoriesMood :dbValue="databaseValues[2]" v-if="stage === 2" @emitPixel="sendPixel"/>
+        <CategoriesWeather :dbValue="databaseValues[3]" v-if="stage === 3" @emitPixel="sendPixel"/>
+        <CategoriesExercise :dbValue="databaseValues[4]" v-if="stage === 4" @emitPixel="sendPixel"/>
+        <CategoriesReading :dbValue="databaseValues[5]" v-if="stage === 5" @emitPixel="sendPixel"/>
+        <CategoriesHealth :dbValue="databaseValues[6]" v-if="stage === 6" @emitPixel="sendPixel"/>
         <CategoriesCompleted v-if="stage === 7"/>
+        <div class="error" v-if="error">{{ error }}</div>
         <footer class="footer">
             <button type="button" class="btn" v-if="stage > 0" @click="prevStage()">Back</button>
             <button type="button" class="btn btn--primary" v-if="stage !== 7" @click="nextStage()">Next <nuxt-icon name="chevron-right" /></button>
@@ -33,11 +34,13 @@ definePageMeta({
     middleware: ["user"]
 })
 
+const error = ref("")
+
 // Prepare pixel to send
 const pixelToSend = {
     category: '',
     year: new Date().getFullYear(),
-    date: `${String(new Date().getDate()).padStart(2, '0')}/${String(new Date().getMonth() + 1).padStart(2, '0')}/${new Date().getFullYear()}`,
+    date: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
     pixel_values: ''
 }
 // Get selected pixel from component
@@ -47,7 +50,7 @@ const sendPixel = (ev) => {
 }
 
 // Check if user today fullfiled all categories
-const response = await fetch('https://pixelyear.herokuapp.com/api/updated_today/all', {
+const response = await fetch('https://pixelyear.herokuapp.com/api/updated_today/all?type=numeric', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -56,15 +59,61 @@ const response = await fetch('https://pixelyear.herokuapp.com/api/updated_today/
 })
 const stage = ref(0)
 const data = await response.json()
+if(data.hasOwnProperty('error')){
+    useAuth().logout()
+    navigateTo('/') // TODO: Nuxt problem, change to '/'
+}
 if(data.not_updated.length === 0){
     stage.value = 7
 }
 
-const nextStage = ()=>{
-    stage.value++
+// Set previously set values (from database)
+const databaseValues = data.updated
+
+if(!data.updated.hasOwnProperty('0') && stage.value === 0){
+    // Default important value
+    pixelToSend.category = "rate"
+    pixelToSend.pixel_values = 3
+}
+
+const nextStage = async ()=>{
+    console.log(pixelToSend)
+    // Skipping a category or omitting a category that was previously filled in
+    if(databaseValues[stage.value] && pixelToSend.category === ""){
+        return stage.value++
+    }
+    console.log("[DEBUG] Wysyłam pixel:", pixelToSend)
+    const pixelChangeResponse = await fetch(`https://pixelyear.herokuapp.com/api/${new Date().getFullYear()}/${pixelToSend.category}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+            date: pixelToSend.date,
+            pixel_values: pixelToSend.pixel_values
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + useAuth().getToken
+        }
+    })
+
+    console.log("[DEBUG] Wysłano")
+
+    const pixelChangeData = await pixelChangeResponse.json()
+
+    console.log(pixelChangeData)
+
+    if(String(pixelChangeResponse.status)[0] !== '2'){
+        error.value = `An error occurred. (${pixelChangeData.error}) Try again later.`
+    }else{
+        databaseValues[`${stage.value}`] = pixelToSend.pixel_values
+        stage.value++
+        pixelToSend.category = "" // Reset category
+        pixelToSend.pixel_values = "" // Reset pixel value
+    }
 }
 const prevStage = ()=>{
     stage.value--
+    pixelToSend.category = "" // Reset category
+    pixelToSend.pixel_values = "" // Reset pixel value
 }
 </script>
 <style lang="scss">
@@ -91,6 +140,11 @@ h1{
 </style>
 
 <style lang="scss" scoped>
+.error{
+    margin-top: 1em;
+    padding: 1em;
+    background-color: #912e2e;
+}
 .daily__stages{
     display: flex;
     justify-content: center;

@@ -18,6 +18,11 @@
 </template>
 
 <script setup>
+const props = defineProps({
+    dbValue: String // Value from database if a user has already filled a category 
+})
+const emits = defineEmits(["emitPixel"])
+
 const optionsValue = ref([{
     value: 1,
     text: 'Any kind',
@@ -40,7 +45,24 @@ const optionsValue = ref([{
     class: 'pixel--dash-left'
 }])
 
-const currentValue = ref([])
+const empty = {
+    value: 0,
+    text: 'Not selected',
+    class: ''
+}
+
+const currentValue = props.dbValue ? ref([]) : ref([empty])
+
+if(props.dbValue){
+    currentValue.value = []
+    console.log(currentValue.value)
+    for(let i = 0; i <= String(props.dbValue).length; i++){
+        console.log(optionsValue.value[String(props.dbValue)[i]])
+        currentValue.value.push(optionsValue.value[String(props.dbValue)[i]])
+    }
+    console.log(currentValue.value)
+}
+
 const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
     const currentPixel = clickedPixelBox.querySelector('.pixel').dataset.value
@@ -50,6 +72,10 @@ const changeValue = (ev) =>{
     }else{
         currentValue.value.push( optionsValue.value[currentPixel-1] )
     }
+    
+    currentValue.value = currentValue.value.filter((el)=> el.value !== 0)
+    
+    emits('emitPixel', {category: 'exercises', pixel: currentValue.value.map((el)=> el.value).join('')})
 }
 </script>
 

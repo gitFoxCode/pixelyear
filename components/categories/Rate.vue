@@ -10,40 +10,62 @@
             <span class="content__text"><span class="value-text">pretty average</span></span>
         </div>
         <div class="content__options">
-            <div class="pixel" data-rate="1" @click="selectPixel($event)">1</div>
-            <div class="pixel" data-rate="2" @click="selectPixel($event)">2</div>
-            <div class="pixel pixel--selected" data-rate="3" @click="selectPixel($event)">3</div>
-            <div class="pixel" data-rate="4" @click="selectPixel($event)">4</div>
-            <div class="pixel" data-rate="5" @click="selectPixel($event)">5</div>
+            <div class="pixel" v-for="pixel in pixels" 
+            :data-value="pixel.value" 
+            :key="pixel"  
+            @click="selectPixel($event)"
+            :class="{'pixel--selected': (pixel.value === currentPixel.value)}">{{ pixel.value }}</div>
+
         </div>
     </div>
 </template>
 
 <script setup>
+const props = defineProps({
+    dbValue: String // Value from database if a user has already filled a category 
+})
 const emits = defineEmits(["emitPixel"])
-const pixels = ref()
+
+const pixels = [{
+    value: 1,
+    text: 'very bad'
+},{
+    value: 2,
+    text: 'bad'
+},{
+    value: 3,
+    text: 'pretty average'
+},{
+    value: 4,
+    text: 'good'
+},{
+    value: 5,
+    text: 'great!'
+}]
+const currentPixel = ref(pixels[2])
 const rateTexts = ['very bad', 'bad', 'pretty average', 'good', 'great!']
-if(process.client){
-    pixels.value = document.querySelectorAll('.pixel')
+
+console.log(props.dbValue)
+
+if(props.dbValue){
+    currentPixel.value = pixels[props.dbValue-1]
 }
+
 const selectPixel = (ev) =>{
-    pixels.value.forEach((pixel)=>{
-        pixel.classList.remove('pixel--selected')
-    })
-    ev.target.classList.add('pixel--selected')
+    currentPixel.value = pixels[ev.target.dataset.value-1]
     const rateValue = document.querySelector('.value')
     const rateValueText = document.querySelector('.value-text')
     rateValue.classList.add('value--transform')
     rateValueText.classList.add('value-text--transform')
-    setTimeout(()=>{
-        rateValueText.innerText = rateTexts[ev.target.dataset.rate-1]
-        rateValue.innerText = ev.target.dataset.rate
+    setTimeout(()=>{ // TODO: Remove or change to requestanimaterate
+        rateValueText.innerText = rateTexts[ev.target.dataset.value-1]
+        rateValue.innerText = ev.target.dataset.value
         setTimeout(()=>{
             rateValueText.classList.remove('value-text--transform')
             rateValue.classList.remove('value--transform')
         }, 250)
     }, 250)
-    emits('emitPixel', {category: 'rate', pixel: ev.target.dataset.rate})
+    emits('emitPixel', {category: 'rate', pixel: ev.target.dataset.value})
 }
 </script>
 
@@ -161,19 +183,19 @@ const selectPixel = (ev) =>{
     position: relative;
     color: #222;
     cursor: pointer;
-    &[data-rate="1"]{
+    &[data-value="1"]{
         background-color: #FF2A2B;
     }
-    &[data-rate="2"]{
+    &[data-value="2"]{
         background-color: #FF772A;
     }
-    &[data-rate="3"]{
+    &[data-value="3"]{
         background-color: #FBFF45;
     }
-    &[data-rate="4"]{
+    &[data-value="4"]{
         background-color: #D4FF2B;
     }
-    &[data-rate="5"]{
+    &[data-value="5"]{
         background-color: #55FF2A;
     }
 }
