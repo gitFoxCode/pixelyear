@@ -56,8 +56,8 @@ const currentValue = props.dbValue ? ref([]) : ref([empty])
 if(props.dbValue){
     currentValue.value = []
     console.log(currentValue.value)
-    for(let i = 0; i <= String(props.dbValue).length; i++){
-        console.log(optionsValue.value[String(props.dbValue)[i]])
+    for(let i = 0; i <= String(props.dbValue).length-1; i++){
+        console.log('e', optionsValue.value[String(props.dbValue)[i]])
         currentValue.value.push(optionsValue.value[String(props.dbValue)[i]])
     }
     console.log(currentValue.value)

@@ -14,7 +14,12 @@
 </template>
 
 <script setup>
-const pages = ref(0)
+const props = defineProps({
+    dbValue: String // Value from database if a user has already filled a category 
+})
+const emits = defineEmits(["emitPixel"])
+
+const pages = props.dbValue ? ref(props.dbValue) : ref(0)
 
 const changePixel = () =>{
     const pixel = document.querySelector('.pixel-number')
@@ -43,42 +48,43 @@ const changePixel = () =>{
     if(pages.value >= 100){
         pixel.dataset.value = 8
     }
+    emits('emitPixel', {category: 'reading', pixel: pages.value})
 }
 
-const optionsValue = ref([{
-    value: 1,
-    text: '0 pages'
-},{
-    value: 2,
-    text: '1-10 p.'
-},{
-    value: 3,
-    text: '11-20 p.'
-},{
-    value: 4,
-    text: '21-30 p.'
-},{
-    value: 5,
-    text: '31-50 p.'
-},{
-    value: 6,
-    text: '51-70 p.'
-},{
-    value: 7,
-    text: '70-99 p.'
-},{
-    value: 8,
-    text: '100+ p.'
-}])
+// const optionsValue = ref([{
+//     value: 1,
+//     text: '0 pages'
+// },{
+//     value: 2,
+//     text: '1-10 p.'
+// },{
+//     value: 3,
+//     text: '11-20 p.'
+// },{
+//     value: 4,
+//     text: '21-30 p.'
+// },{
+//     value: 5,
+//     text: '31-50 p.'
+// },{
+//     value: 6,
+//     text: '51-70 p.'
+// },{
+//     value: 7,
+//     text: '70-99 p.'
+// },{
+//     value: 8,
+//     text: '100+ p.'
+// }])
 
-const currentValue = ref(optionsValue.value[0])
-const changeValue = (ev) =>{
-    const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
-    const currentPixel = clickedPixelBox.querySelector('.pixel').dataset.value
+// const currentValue = ref(optionsValue.value[0])
+// const changeValue = (ev) =>{
+//     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
+//     const currentPixel = clickedPixelBox.querySelector('.pixel').dataset.value
 
-    currentValue.value = optionsValue.value[currentPixel]
+//     currentValue.value = optionsValue.value[currentPixel]
 
-}
+// }
 </script>
 
 <style lang="scss" scoped>

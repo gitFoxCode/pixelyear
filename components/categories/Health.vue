@@ -16,6 +16,11 @@
 </template>
 
 <script setup>
+const props = defineProps({
+    dbValue: String // Value from database if a user has already filled a category 
+})
+const emits = defineEmits(["emitPixel"])
+
 const optionsValue = ref([{
     value: 1,
     text: 'Healthy'
@@ -36,7 +41,7 @@ const changeValue = (ev) =>{
     const currentPixel = clickedPixelBox.querySelector('.pixel').dataset.value
 
     currentValue.value = optionsValue.value[currentPixel-1]
-
+    emits('emitPixel', {category: 'health', pixel: currentValue.value.value})
 }
 </script>
 

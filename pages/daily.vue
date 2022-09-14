@@ -33,8 +33,11 @@ import { useAuth } from '~/store/auth'
 definePageMeta({
     middleware: ["user"]
 })
-
+const stage = ref(0)
 const error = ref("")
+
+// TODO: Stay when reload
+
 
 // Prepare pixel to send
 const pixelToSend = {
@@ -57,7 +60,6 @@ const response = await fetch('https://pixelyear.herokuapp.com/api/updated_today/
         'Authorization': 'Bearer ' + useAuth().getToken
     }
 })
-const stage = ref(0)
 const data = await response.json()
 if(data.hasOwnProperty('error')){
     useAuth().logout()
@@ -82,6 +84,12 @@ const nextStage = async ()=>{
     if(databaseValues[stage.value] && pixelToSend.category === ""){
         return stage.value++
     }
+
+    // Skipping a category
+    if(pixelToSend.category === ""){
+        return stage.value++
+    }
+
     console.log("[DEBUG] Wysyłam pixel:", pixelToSend)
     const pixelChangeResponse = await fetch(`https://pixelyear.herokuapp.com/api/${new Date().getFullYear()}/${pixelToSend.category}`, {
         method: 'PATCH',
