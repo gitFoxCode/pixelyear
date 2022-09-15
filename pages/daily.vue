@@ -7,8 +7,9 @@
             v-for="categoryId in 6" 
             :key="categoryId" 
             :class="{
-            'daily__stage--filled': stage > categoryId, 
-            'daily__stage--filled': databaseValues[categoryId]}"></div>
+            'daily__stage--filled': stage > categoryId-1, 
+            'daily__stage--filled': databaseValues[categoryId-1],
+            'daily__stage--filled': Object.keys(databaseValues).length === 7}"></div>
 
         </div>
         <CategoriesRate  :dbValue="databaseValues[0]" v-if="stage === 0" @emitPixel="sendPixel"/>
@@ -85,6 +86,12 @@ const nextStage = async ()=>{
         return stage.value++
     }
 
+    // Handling reading category with '0 pages' TODO: force the component to send this data 
+    if(pixelToSend.category === "" && stage.value === 5){
+        pixelToSend.category = 'reading'
+        pixelToSend.pixel_values = 0
+    }
+
     // Skipping a category
     if(pixelToSend.category === ""){
         return stage.value++
@@ -113,6 +120,7 @@ const nextStage = async ()=>{
         error.value = `An error occurred. (${pixelChangeData.error}) Try again later.`
     }else{
         databaseValues[`${stage.value}`] = pixelToSend.pixel_values
+        console.log(databaseValues)
         stage.value++
         pixelToSend.category = "" // Reset category
         pixelToSend.pixel_values = "" // Reset pixel value

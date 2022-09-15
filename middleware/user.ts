@@ -5,5 +5,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
         return ;//abortNavigation()
     }
     // return navigateTo('/')
-    return navigateTo('/xd')
+    console.log("Użytkownik nie jest zalogowany!")
+    return navigateTo('/')
 })

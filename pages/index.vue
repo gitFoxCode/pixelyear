@@ -46,7 +46,8 @@ definePageMeta({
 
 const formData = ref({
     email: '',
-    password: ''
+    password: '',
+    never_expire: true
 })
 
 const error = ref({
