@@ -26,7 +26,6 @@ const today = useRoute().params.date
 const diaryText = ref("")
 const saveLoading = ref(false)
 const error = ref()
-const diaryExists = false
 
 const getDiary = async () => {
     const rawResponse = await fetch(`https://pixelyear.herokuapp.com/api/journal/${today}`, {
@@ -41,17 +40,12 @@ const getDiary = async () => {
     }
     const response = await rawResponse.json()
     diaryText.value = response.content
-    diaryExists = true
 }
 
 const saveDiary = async ()=>{ 
-    let method = 'POST'
     saveLoading.value = true
-    if(diaryExists){
-        method = 'PATCH'
-    }
     const rawResponse = await fetch(`https://pixelyear.herokuapp.com/api/journal/${today}`, {
-        method,
+        method: 'PATCH',
         body: JSON.stringify({journal_content: diaryText.value}),
         headers: {
             'Content-Type': 'application/json',
@@ -64,7 +58,6 @@ const saveDiary = async ()=>{
     }
     const response = await rawResponse.json()
     console.log(response)
-    diaryExists = true
 }
 
 await getDiary()

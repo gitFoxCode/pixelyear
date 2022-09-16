@@ -8,8 +8,7 @@
             :key="categoryId" 
             :class="{
             'daily__stage--filled': stage > categoryId-1, 
-            'daily__stage--filled': databaseValues[categoryId-1],
-            'daily__stage--filled': Object.keys(databaseValues).length === 7}"></div>
+            'daily__stage--filled': databaseValues[categoryId-1]}"></div>
 
         </div>
         <CategoriesRate  :dbValue="databaseValues[0]" v-if="stage === 0" @emitPixel="sendPixel"/>
