@@ -28,6 +28,7 @@
             <section class="buttons">
                 <button type="submit" class="btn--green" :class="{'loading': loadingState}"><nuxt-icon name="key" /> Log in</button>
                 <p>Don't have an account?  <a href="/register">Register</a></p>
+                <p>Did you forget your password?  <a href="/reset-password">Reset password</a></p>
             </section>
             <section class="buttons">
                 <button type="button"><nuxt-icon name="google" /> Login via Google</button>
