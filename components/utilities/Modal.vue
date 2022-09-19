@@ -1,21 +1,25 @@
 <template>
-    <section class="modal" v-if="modalActive">
+    <section class="modal">
         <span class="modal__title">{{ title }}</span>
         <span class="modal__content">{{ content }}</span>
         <div class="modal__actions">
             <a href="#" class="modal__btn" @click="modalClose">Close</a>
-            <a href="#" class="modal__btn modal__btn__primary">{{ primaryBtn }}</a>
+            <button type="button" @click="confirmFunction" class="modal__btn modal__btn__primary">{{ primaryBtn }}</button>
         </div>
     </section>
 </template>
 
 <script setup>
-const modalActive = ref(true)
-const title = "Usunięcie konta"
-const content = "Na pewno chcesz usunąć swoje konto (email@adres.pl)?"
-const primaryBtn = "Delete"
+const props = defineProps({
+    title: String,
+    content: String,
+    primaryBtn: String,
+    confirmFunction: Function
+})
+const emits = defineEmits(["modalClose"])
+
 const modalClose = () =>{
-    modalActive.value = false
+    emits('modalClose')
 }
 </script>
 
@@ -40,13 +44,14 @@ const modalClose = () =>{
     justify-content: flex-end;
     align-items: center;
     gap: 2em;
-    a{
+    a, button{
         color: #FFF;
         text-decoration: none;
     }
 }
 .modal__btn__primary{
     padding: 0.5em 1em;
+    background-color: transparent;
     border: 2px solid #FFF;
     font-weight: bold;
 }

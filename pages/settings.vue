@@ -11,7 +11,7 @@
                 <label class="input__box">
                     <span class="input__title">E-mail</span>
                     <div class="input__content">
-                        <input type="text" value="test@test.pl" readonly>
+                        <input type="text" :value="useAuth().getUser.email" readonly>
                         <span class="input__icon"> <nuxt-icon name="lock"/> </span>
                     </div>
                 </label>
@@ -23,10 +23,16 @@
                     </div>
                 </label>
                 <button type="button" class="btn">Log out of all devices</button>
-                <button type="button" class="btn btn--danger">Delete account</button>
+                <button type="button" class="btn btn--danger" @click="modalOpen">Delete account</button>
             </div>
         </main> 
-        <UtilitiesModal />
+        <UtilitiesModal 
+        v-if="modalActive"
+        title="Deleting an account" 
+        :content="`Are you sure you want to delete your account (${useAuth().getUser.email})? This option cannot be undone.`"
+        primaryBtn="Delete"
+        :confirmFunction="deleteAccount"
+        @modalClose="modalClose"/>
     </section>
 </template>
 
@@ -37,6 +43,32 @@ definePageMeta({
 })
 
 const user = useAuth().getToken
+const modalActive = ref(false)
+
+const deleteAccount = async ()=>{
+    const rawResponse = await fetch('https://pixelyear.herokuapp.com/api/delete_account', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + useAuth().getToken
+        }
+    })
+    
+    const response = await rawResponse.json()
+    if(response?.success){
+        useAuth().logout()
+        return navigateTo('/')
+    }
+}
+
+const modalOpen = ()=>{
+    modalActive.value = true
+}
+
+const modalClose = ()=>{
+    modalActive.value = false
+}
+
 </script>
 
 <style lang="scss" scoped>

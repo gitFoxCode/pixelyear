@@ -36,13 +36,19 @@ const optionsValue = ref([{
 }])
 
 const currentValue = ref(optionsValue.value[0])
-const changeValue = (ev) =>{
+const changeValue = (ev, manual) =>{
+    if(manual){
+        return emits('emitPixel', {category: 'health', pixel: ev})
+    }
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
     const currentPixel = clickedPixelBox.querySelector('.pixel').dataset.value
 
     currentValue.value = optionsValue.value[currentPixel-1]
     emits('emitPixel', {category: 'health', pixel: currentValue.value.value})
 }
+onMounted(()=>{
+    changeValue(1, true)
+})
 </script>
 
 <style lang="scss" scoped>

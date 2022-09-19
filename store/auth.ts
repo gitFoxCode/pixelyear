@@ -9,7 +9,7 @@ export const useAuth = defineStore({
 
   getters: {
     getToken: state => state.user.token,
-    getUser: state => state.user
+    getUser: state => state.user || false
   },
 
   actions: {

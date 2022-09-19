@@ -18,7 +18,7 @@
         <CategoriesExercise :dbValue="databaseValues[4]" v-if="stage === 4" @emitPixel="sendPixel"/>
         <CategoriesReading :dbValue="databaseValues[5]" v-if="stage === 5" @emitPixel="sendPixel"/>
         <CategoriesHealth :dbValue="databaseValues[6]" v-if="stage === 6" @emitPixel="sendPixel"/>
-        <CategoriesCompleted v-if="stage === 7"/>
+        <CategoriesCompleted v-if="stage === 7" />
         <div class="error" v-if="error">{{ error }}</div>
         <footer class="footer">
             <button type="button" class="btn" v-if="stage > 0" @click="prevStage()">Back</button>
@@ -35,6 +35,7 @@ definePageMeta({
 })
 const stage = ref(0)
 const error = ref("")
+
 
 // TODO: Stay when reload
 
@@ -65,6 +66,7 @@ if(data.hasOwnProperty('error')){
     useAuth().logout()
     navigateTo('/') // TODO: Nuxt problem, change to '/'
 }
+// Go to completed if all categories are done
 if(data.not_updated.length === 0){
     stage.value = 7
 }

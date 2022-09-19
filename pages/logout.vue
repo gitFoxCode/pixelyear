@@ -4,7 +4,6 @@
 <script setup>
 import { useAuth } from '~/store/auth'
 
-useAuth().logout()
 console.log("Wylogowano!")
-navigateTo('/')
+useAuth().logout()
 </script>

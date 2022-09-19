@@ -50,6 +50,9 @@ const changePixel = () =>{
     }
     emits('emitPixel', {category: 'reading', pixel: pages.value})
 }
+onMounted(()=>{
+    changePixel()
+})
 
 // const optionsValue = ref([{
 //     value: 1,

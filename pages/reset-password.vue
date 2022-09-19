@@ -1,13 +1,13 @@
 <template>
     <section class="section">
-        <TopNav />
+        <TopNav v-if="useAuth().getUser"/>
         <main>
             <h1 class="title">Reset password</h1>
             <div class="inputs">
                 <label class="input__box">
                     <span class="input__title">User email</span>
                     <div class="input__content">
-                        <input type="text" readonly v-model="email">
+                        <input type="text" v-model="email" id="email-input">
                         <span class="input__icon"> <nuxt-icon name="user"/> </span>
                     </div>
                 </label>
@@ -36,6 +36,7 @@
                 <button type="button" class="btn btn--danger" :class="{'loading': loading}" v-if="!successfullChanged" @click="resetPassword">Reset password</button>
                 <button type="button" class="btn" v-if="successfullChanged" @click="navigateTo('/')">Log In</button>
             </div>
+            <nuxt-link to="/">Go back</nuxt-link>
         </main> 
     </section>
 </template>
@@ -56,6 +57,12 @@ const strongCheckBox = ref({
     weak: false
 })
 const successfullChanged = ref(false)
+
+onMounted(()=>{
+    if(email.value){
+        document.getElementById('email-input').readOnly = true
+    }
+})
 
 // Password strong check
 const strongPassword = new RegExp('(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$')
@@ -109,6 +116,7 @@ const resetPassword = async (ev) =>{
         successfullChanged.value = true
         return; 
     }
+
     ev.target.innerText = ""
     loading.value = true
     const rawResponse = await fetch(`https://pixelyear.herokuapp.com/api/create_password_reset_token`, {
@@ -132,6 +140,20 @@ const resetPassword = async (ev) =>{
 </script>
 
 <style lang="scss" scoped>
+.input__content input:read-only{
+    border-color: #444;
+    color: #666;
+    &+.input__icon{
+        border-color: #444;
+        color: #444;
+    }
+}
+a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
 .message{
     padding: 1em;
     background-color: #222;

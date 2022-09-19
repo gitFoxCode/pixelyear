@@ -11,9 +11,9 @@
                 <span class="user__email">{{ user.email }}</span>
             </div>
             <ul>
-                <li><nuxt-link to="#"> <nuxt-icon name="daily"/> Daily</nuxt-link></li>
+                <li><nuxt-link to="/daily"> <nuxt-icon name="daily"/> Daily</nuxt-link></li>
                 <li><nuxt-link to="/stats"> <nuxt-icon name="stats"/> Stats</nuxt-link></li>
-                <li><nuxt-link to="/stats"> <nuxt-icon name="cog"/> Settings</nuxt-link></li>
+                <li><nuxt-link to="/settings"> <nuxt-icon name="cog"/> Settings</nuxt-link></li>
                 <li><nuxt-link to="/logout"> <nuxt-icon name="logout"/> Logout</nuxt-link></li>
             </ul>
         </nav>
