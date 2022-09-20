@@ -58,43 +58,14 @@ const error = ref({
 const loadingState = ref(false)
 
 /* Facebook login */
-
-// frontend tests | docelowo backend
-const loginFacebook = async () =>{
-    FB.login((res)=>{
-        console.log(res)
-        if (res.authResponse) {
-            FB.api('/me',  {fields: 'email, picture', access_token: res.authResponse.accessToken} , function(response) {
-                console.log(response)
-                
-            })
-        }else{
-            console.log('User cancelled login or did not fully authorize.')
-        }
-    }, { scope: 'public_profile, email' })
-    FB.getLoginStatus(function(response) {
-        console.log(response)
-        statusChangeCallback(response);
-    })
-}
-
-(function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'))
-
-window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '628032078832616',
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v15.0'
-    });
-      
-    FB.AppEvents.logPageView();        
+const loginFacebook = async()=>{
+    const state = 'string'
+    const redirect = 'https://localhost:3000/oauth'
+    const appID = '583211373601189'
+    const scope = 'email'
+    // return navigateTo(`https://www.facebook.com/v15.0/dialog/oauth?client_id=${appID}&redirect_uri=${redirect}&state=${state}`,
+    // { external: true })
+    window.location.href = `https://www.facebook.com/v15.0/dialog/oauth?client_id=${appID}&redirect_uri=${redirect}&state=${state}&scope=${scope}`
 }
 /* ------ */
 
