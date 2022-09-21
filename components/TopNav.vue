@@ -1,6 +1,7 @@
 <template>
     <header class="header">
-        <span class="logo"><a href="#"><b>Pixel</b>Year</a></span>
+        <span class="logo"><a href="/"><b>Pixel</b>Year</a></span>
+        <nuxt-link :to="props.goBack" class="btn-prev" v-if="props.goBack"><nuxt-icon name="back" fill/> go back</nuxt-link>
         <button type="button" class="menu-btn" @click="toggleMenu"> 
             <nuxt-icon name="hamburger" v-if="!activeMenu"/> 
             <nuxt-icon name="close" v-else/> 
@@ -22,6 +23,10 @@
 
 <script setup>
 import { useAuth } from '~/store/auth'
+
+const props = defineProps({
+    goBack: String
+})
 
 const user = useAuth().getUser
 
@@ -45,6 +50,19 @@ const toggleMenu = ()=>{
 </style>
 
 <style lang="scss" scoped>
+.btn-prev{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-size: 0.9em;
+    color: #EEE;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: 2em;
+    & .nuxt-icon{
+        stroke-width: 2px;
+    }
+}
 .navigation{
     position: absolute;
     top: 6rem;

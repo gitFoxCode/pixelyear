@@ -25,11 +25,10 @@
 </template>
 
 <script setup>
+import { useAuth } from '~/store/auth'
 definePageMeta({
   middleware: ["user"]
 })
-
-import { useAuth } from '~/store/auth'
 
 const category = 'anxiety'
 

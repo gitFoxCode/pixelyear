@@ -1,6 +1,6 @@
 <template>
     <section class="section">
-        <TopNav />
+        <TopNav goBack="/daily#completed"/>
         <main>
             <div class="cards">
                 <div class="card" v-for="year in years.years" :key="year">
@@ -12,7 +12,7 @@
                         <li><nuxt-link :to="`/anxiety/${year}`">Anxiety</nuxt-link></li>
                         <li><nuxt-link :to="`/mood/${year}`">Mood</nuxt-link></li>
                         <li><nuxt-link :to="`/weather/${year}`">Weather</nuxt-link></li>
-                        <li><nuxt-link :to="`/exercises/${year}`">Exercises</nuxt-link></li>
+                        <li><nuxt-link :to="`/exercise/${year}`">Exercises</nuxt-link></li>
                         <li><nuxt-link :to="`/reading/${year}`">Reading</nuxt-link></li>
                         <li><nuxt-link :to="`/health/${year}`">Health</nuxt-link></li>
                     </ul>
@@ -23,10 +23,10 @@
 </template>
 
 <script setup>
+import { useAuth } from '~/store/auth'
 definePageMeta({
   middleware: ["user"]
 })
-import { useAuth } from '~/store/auth'
 const { data: years } = await useLazyFetch(`https://pixelyear.herokuapp.com/api/active_years`, {
     headers:{
         'Authorization': 'Bearer ' + useAuth().getToken

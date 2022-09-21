@@ -1,6 +1,6 @@
 <template>
     <section class="section">
-        <TopNav />
+        <TopNav goBack="/stats"/>
         <main v-if="!error">
             <Callendar
                 :year="year"
@@ -25,13 +25,12 @@
 </template>
 
 <script setup>
+import { useAuth } from '~/store/auth'
 definePageMeta({
   middleware: ["user"]
 })
 
-import { useAuth } from '~/store/auth'
-
-const category = 'exercise'
+const category = 'exercises'
 
 const error = ref("")
 const averageValue = ref(0)

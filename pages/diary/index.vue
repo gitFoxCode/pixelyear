@@ -1,6 +1,6 @@
 <template>
     <section class="section">
-        <TopNav />
+        <TopNav goBack="/daily#completed"/>
         <main>
             <h1 class="section__title">Diary <span class="section__title-date">{{ new Date().toLocaleDateString() }}</span></h1>
             <textarea class="diary__input" 

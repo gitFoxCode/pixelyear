@@ -33,12 +33,22 @@ import { useAuth } from '~/store/auth'
 definePageMeta({
     middleware: ["user"]
 })
-const stage = ref(0)
+const CATEGORIES = new Map([
+    ['rate', 0],
+    ['anxiety', 1],
+    ['mood', 2],
+    ['weather', 3],
+    ['exercise', 4],
+    ['reading', 5],
+    ['health', 6],
+    ['completed', 7]
+])
+const stage = location.hash ? ref(CATEGORIES.get(location.hash.replace('#',''))) : ref(0)
 const error = ref("")
 
-
-// TODO: Stay when reload
-
+watch(stage, async (newStage, oldStage) => {
+    location.hash = Array.from(CATEGORIES.keys())[newStage]
+})
 
 // Prepare pixel to send
 const pixelToSend = {
