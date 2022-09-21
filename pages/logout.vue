@@ -6,4 +6,5 @@ import { useAuth } from '~/store/auth'
 
 console.log("Wylogowano!")
 useAuth().logout()
+location.href = "/"
 </script>

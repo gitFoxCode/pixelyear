@@ -10,10 +10,13 @@ Login through the application itself, JWT token
 ### To do:
 - https://dev.to/rdegges/please-stop-using-local-storage-1i04
 - Fix problems with `navigateTo()`
+- After registration, a panel for the user to choose which categories he wants to fill daily 
+- Ability to create your own categories 
 
 ### Refactorization 🤞
 - Break the components into even smaller ones. E.g.: `components/categories/anxiety/inputs` which will allow to use the components themselves in the calendar and in the 'daily'
 - Divide classes into global and local to preserve DRY
+- Moving between categories should be dynamic (support for custom categories)
 
 ## Setup
 

@@ -52,6 +52,30 @@ const props = defineProps({
 onMounted(()=>{
     const todayPixel = document.querySelector(`tbody tr:nth-of-type(${new Date().getDate()}) td:nth-of-type(${new Date().getMonth()+1}) .pixel`)
     todayPixel.classList.add('pixel--today')
+
+    if(props.type === 'exercises'){
+        const classes = ['pixel--blue', 'pixel--dot', 'pixel--circle', 'pixel--dash', 'pixel--dash-left']
+
+        console.log("KALENDASZ")
+        const pixels = document.querySelectorAll('tbody .pixel')
+        pixels.forEach((pixel)=>{
+            const pixelValue = pixel.dataset.value
+            if(pixelValue != 0 && pixelValue != undefined){
+                for(let i = 0; i <= String(pixelValue).length-1; i++){
+                    const separatedValue = String(pixelValue)[i]
+
+                    const newDiv = document.createElement('div')
+                    newDiv.classList.add('pixel--inner')
+                    newDiv.classList.add(classes[separatedValue-1])
+                    pixel.appendChild(newDiv)
+
+                    console.log(String(pixelValue)[i])
+                }
+                console.log(pixelValue)
+            }
+        })
+    }
+
 })
 
 const selectPixel = (ev)=>{
@@ -64,6 +88,7 @@ const selectPixel = (ev)=>{
     }
     ev.target.classList.add("pixel--selected")
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -97,6 +122,7 @@ th,td{
     border: 1px solid #222222;
     background-color: #000;
     cursor: pointer;
+    position: relative;
 }
 .pixel--today{
     border-color: #efaa3e;
@@ -220,6 +246,65 @@ th,td{
     &[data-value="8"]{
         background-color: rgb(150, 106, 232);
         box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(150, 106, 232, 0.4) 0px 25px 50px -12px;
+    }
+}
+
+</style>
+
+<style lang="scss">
+    /// TODO: :v-deep()
+.exercises .pixel{
+    .pixel--inner{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    .pixel--blue{
+        background-color: rgb(67, 97, 248);
+        z-index: -1;
+    }
+    .pixel--dot::before{
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 5px;
+        height: 5px;
+        background: #eee;
+        border-radius: 50%;
+    }
+    .pixel--circle::before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border: 2px solid #eee;
+        border-radius: 50%;
+    }
+    .pixel--dash::before{
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 0.5em;
+        background: #eee;
+    }
+    .pixel--dash-left::before{
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        width: 90%;
+        height: 0.5em;
+        background: #eee;
     }
 }
 </style>

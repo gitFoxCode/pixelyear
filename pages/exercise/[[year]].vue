@@ -39,22 +39,26 @@ const changePixelError = ref("")
 
 const optionsValue = [{
     value: 1,
+    text: 'None',
+    class: 'empty'
+},{
+    value: 2,
     text: 'Any kind',
     class: 'pixel--blue'
 },{
-    value: 2,
+    value: 3,
     text: 'Workout',
     class: 'pixel--dot'
 },{
-    value: 3,
+    value: 4,
     text: 'Cycling',
     class: 'pixel--circle'
 },{
-    value: 4,
+    value: 5,
     text: 'Dancing',
     class: 'pixel--dash'
 },{
-    value: 5,
+    value: 6,
     text: 'Walking',
     class: 'pixel--dash-left'
 }]
@@ -63,6 +67,7 @@ const currentValue = ref(optionsValue[0])
 
 const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
+
     currentValue.value = optionsValue[clickedPixelBox.querySelector('.pixel').dataset.value-1]
     changePixel(ev)
 }
@@ -154,18 +159,66 @@ if(year.value === null){
     position: relative;
     color: #222;
     cursor: pointer;
-    &[data-value="1"]{
-        background-color: #D4FF2B;
-    }
-    &[data-value="2"]{
-        background-color: #FBFF45;
-    }
-    &[data-value="3"]{
-        background-color: #FF772A;
-    }
-    &[data-value="4"]{
-        background-color: #FF2A2B;
-    }
+}
+.pixel--dot::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1em;
+    height: 1em;
+    background: #eee;
+    border-radius: 50%;
+}
+.pixel--circle::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 0.35em solid #eee;
+    border-radius: 50%;
+}
+.pixel--dash::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 0.5em;
+    background: #eee;
+}
+.pixel--dash-left::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 90%;
+    height: 0.5em;
+    background: #eee;
+}
+.pixel{
+    height: 3em;
+    width: 3em;
+    border-radius: 0.5em;
+    background-color: #222;
+    border: 2px solid #2D2D2D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    position: relative;
+    color: #222;
+    cursor: pointer;
+}
+.pixel--blue{
+    background-color: rgb(67, 97, 248);
+    z-index: -1;
 }
 .selected .text{
     transform: translateY(-0.5em)

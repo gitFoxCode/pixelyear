@@ -25,22 +25,26 @@ const emits = defineEmits(["emitPixel"])
 
 const optionsValue = ref([{
     value: 1,
+    text: 'None',
+    class: 'empty'
+},{
+    value: 2,
     text: 'Any kind',
     class: 'pixel--blue'
 },{
-    value: 2,
+    value: 3,
     text: 'Workout',
     class: 'pixel--dot'
 },{
-    value: 3,
+    value: 4,
     text: 'Cycling',
     class: 'pixel--circle'
 },{
-    value: 4,
+    value: 5,
     text: 'Dancing',
     class: 'pixel--dash'
 },{
-    value: 5,
+    value: 6,
     text: 'Walking',
     class: 'pixel--dash-left'
 }])
@@ -57,7 +61,7 @@ const currentValue = props.dbValue ? ref([]) : ref([empty])
 if(props.dbValue){
     currentValue.value = []
     for(let i = 0; i <= String(props.dbValue).length-1; i++){
-        currentValue.value.push(optionsValue.value[String(props.dbValue)-1])
+        currentValue.value.push(optionsValue.value[String(props.dbValue)[i]-1])
     }
 }
 
@@ -67,11 +71,17 @@ const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
     const currentPixel = clickedPixelBox.querySelector('.pixel').dataset.value
 
-    if (currentValue.value.some((el)=> el.value === currentPixel*1)){
-        currentValue.value = currentValue.value.filter((el)=> el.value !== currentPixel*1)
+    if(currentPixel == 1){
+        currentValue.value = [optionsValue.value[0]]
     }else{
-        currentValue.value.push( optionsValue.value[currentPixel-1] )
+        if (currentValue.value.some((el)=> el.value === currentPixel*1)){
+            currentValue.value = currentValue.value.filter((el)=> el.value !== currentPixel*1)
+        }else{
+            currentValue.value.push( optionsValue.value[currentPixel-1] )
+        }
+        currentValue.value = currentValue.value.filter((el)=> el.value !== 1)
     }
+
     
     currentValue.value = currentValue.value.filter((el)=> el.value !== 0)
     
