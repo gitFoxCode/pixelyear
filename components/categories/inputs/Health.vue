@@ -1,27 +1,19 @@
 <template>
-    <h1>How was <b>your</b> health today?</h1>
-    <span class="description">Mark how you felt health-wise today. </span>
-    <div class="content">
-        <span class="content__title">Today I felt...</span>
-        <div class="content">
-            <div class="text">{{ currentValue.text }}</div>
-            <div class="content__options">
-                <div class="pixel__box" :class="{'selected': (optionPixel.value === currentValue.value)}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
-                    <div class="pixel" :class="optionPixel.class" :data-value="optionPixel.value"></div>
-                    <div class="pixel-text">{{optionPixel.text}}</div>
-                </div>
-            </div>
+    <div class="content__options">
+        <div class="pixel__box" :class="{'selected': (optionPixel.value === currentValue.value)}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
+            <div class="pixel" :class="optionPixel.class" :data-value="optionPixel.value"></div>
+            <div class="pixel-text">{{optionPixel.text}}</div>
         </div>
     </div>
 </template>
 
 <script setup>
 const props = defineProps({
-    dbValue: String // Value from database if a user has already filled a category 
+    apiValue: String
 })
-const emits = defineEmits(["emitPixel"])
+const emits = defineEmits(["emitSelected"])
 
-const optionsValue = ref([{
+const optionsValue = [{
     value: 1,
     text: 'Healthy'
 },{
@@ -33,44 +25,37 @@ const optionsValue = ref([{
 },{
     value: 4,
     text: 'Servere sickness'
-}])
+}]
 
-const currentValue = ref(optionsValue.value[0])
-const changeValue = (ev, manual) =>{
-    if(manual){
-        return emits('emitPixel', {category: 'health', pixel: ev})
-    }
+const empty = {
+    value: 0,
+    text: 'Not selected'
+}
+
+const currentValue = props.apiValue ? ref(optionsValue[props.apiValue-1]) : ref(empty)
+
+if(props.apiValue){
+    emits('emitSelected', currentValue.value)
+}
+
+const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
     const currentPixel = clickedPixelBox.querySelector('.pixel').dataset.value
 
-    currentValue.value = optionsValue.value[currentPixel-1]
-    emits('emitPixel', {category: 'health', pixel: currentValue.value.value})
+    currentValue.value = optionsValue[currentPixel-1]
+    emits('emitSelected', currentValue.value)
 }
-onMounted(()=>{
-    changeValue(1, true)
-})
 </script>
 
 <style lang="scss" scoped>
-.text{
-    display: block;
-    font-size: 3em;
-    margin: 1em 0;
-}
 .content__options{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-content: center;
     gap: 2em;
     margin-top: 2em;
     padding: 0 2em;
-}
-.content{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2em;
 }
 .pixel__box{
     display: flex;
@@ -104,8 +89,6 @@ onMounted(()=>{
         background-color: rgb(83, 34, 241);
     }
 }
-
-
 .selected .pixel{
     font-size: 1.3em;
     transform: translateX(-0.5em);

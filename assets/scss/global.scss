@@ -1,12 +1,37 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+html,body, #__nuxt {
+    height:100%;
+}
 body{
     width: 100%;
-    max-width: 100vh;
+    max-width: 100vw;
     background-color: #171717;
     color: #FFF;
     font-family: "Monospace", sans-serif;
 }
 b{
     font-weight: bold;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    min-height: calc(100vh - 5em);
+}
+.section{
+    padding-top: 5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: "Monospace", sans-serif;
+    text-align: center;
+    min-height: calc(100vh - 5em);
+    padding-bottom: 3em;
+    &.nonav{
+        padding-top: 0;
+    }
 }
 .loading{
     padding-left: 3em;
@@ -25,9 +50,6 @@ b{
         opacity: 0;
     }
 }
-html,body, #__nuxt {
-    height:100%;
-}
 @keyframes rotating{
     0%{
         transfrom: rotate(0deg)
@@ -35,4 +57,28 @@ html,body, #__nuxt {
     100%{
         transform: rotate(380deg);
     }
+}
+@font-face {
+    font-family: "Monospace";
+    src: url("@/assets/fonts/monos.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Monospace";
+    src: url("@/assets/fonts/monosb.woff2") format("woff2");
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Monospace";
+    src: url("@/assets/fonts/monosi.woff2") format("woff2");
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Monospace";
+    src: url("@/assets/fonts/monosbi.woff2") format("woff2");
+    font-weight: bold;
+    font-style: italic;
 }

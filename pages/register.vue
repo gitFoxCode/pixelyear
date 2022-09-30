@@ -1,38 +1,41 @@
 <template>
-    <main>
-        <h1>Welcome! </h1>
-        <p class="text">This could be the first day of the rest of your life - consciously</p>
-        <form @submit="onSubmit">
-            <section class="login">
-                <label>
-                    <span class="input__title">E-mail</span>
-                    <input type="email" placeholder="jan@kowalski.pl" v-model="formData.email" minlength="3" maxlength="50"/>
-                </label>
-                <label>
-                    <span class="input__title">Password</span>
-                    <input type="password" placeholder="********" v-model="formData.password" minlength="3"/>
-                </label>
-                <label>
-                    <span class="input__title">Repeat password</span>
-                    <input type="password" placeholder="********" v-model="formData.repassword" @keyup="validate" minlength="3"/>
-                </label>
-            </section>
-            <span class="error-msg" v-if="error.status">{{ error.message }}</span>
-            <section class="buttons">
-                <button type="submit" class="btn--green" :class="{'loading': loadingState}"><nuxt-icon name="lock" /> Register</button>
-                <p>Do you already have an account? <a href="/">Log in</a></p>
-            </section>
-            <section class="buttons">
-                <button type="button"><nuxt-icon name="google" /> Register via Google</button>
-                <button type="button"><nuxt-icon name="facebook" /> Register via Facebook</button>
-            </section>
-        </form>
-    </main>
+    <section class="section nonav">
+        <main>
+            <h1>Welcome!</h1>
+            <p class="text">This could be the first day of the rest of your life - consciously</p>
+            <form @submit="onSubmit">
+                <section class="inputs">
+                    <label>
+                        <span class="input__title">E-mail</span>
+                        <input type="email" placeholder="jan@kowalski.pl" v-model="formData.email" minlength="3" maxlength="50"/>
+                    </label>
+                    <label>
+                        <span class="input__title">Password</span>
+                        <input type="password" placeholder="********" v-model="formData.password" minlength="3"/>
+                    </label>
+                    <label>
+                        <span class="input__title">Repeat password</span>
+                        <input type="password" placeholder="********" v-model="formData.repassword" @keyup="validate" minlength="3"/>
+                    </label>
+                </section>
+                <span class="error-msg" v-if="error.status">{{ error.message }}</span>
+                <section class="buttons">
+                    <button type="submit" class="btn--green" :class="{'loading': loadingState}"><nuxt-icon name="lock" /> Register</button>
+                    <p>Do you already have an account? <a href="/">Log in</a></p>
+                </section>
+                <section class="buttons">
+                    <button type="button"><nuxt-icon name="google" /> Register via Google</button>
+                    <button type="button"><nuxt-icon name="facebook" /> Register via Facebook</button>
+                </section>
+            </form>
+        </main>
+    </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { useAuth } from '~/store/auth'
 definePageMeta({
-  middleware: ["guest"]
+    middleware: ["guest"]
 })
 
 const formData = ref({
@@ -48,76 +51,43 @@ const error = ref({
 
 const loadingState = ref(false)
 
-const validate = (ev) => {
+const validate = (ev: any) => {
     if(ev.target.type === "password"){
         const passwordInputs = document.querySelectorAll("input[type='password']")
         if(passwordInputs[0].value !== ev.target.value){
-             ev.target.classList.add('invalid')
+                ev.target.classList.add('invalid')
         }else{
             ev.target.classList.remove('invalid')
         }
     }
 }
 
-const onSubmit = async (ev)=>{
+const onSubmit = async (ev: any)=>{
     ev.preventDefault()
 
     loadingState.value = true
 
-    const response = await fetch('https://pixelyear.herokuapp.com/api/register', {
-         method: 'POST',
-        body: JSON.stringify(formData.value),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+    const rawResponse = await useApi('register', {
+        method: 'POST',
+        body: formData.value
     })
+
+    const response = await rawResponse.json()
 
     loadingState.value = false
 
-    if(String(response.status)[0] !== '2'){
+    if(String(rawResponse.status)[0] !== '2'){
         error.value.status = true
-        error.value.message = (await response.json()).error
+        error.value.message = response.error
     } else{
-        navigateTo('/')
+        useAuth().login(response)
+        return navigateTo('/')
     }
-}
-
-
-if(process.client){
-
-    const colors = [
-    '#A4F97C',
-    '#F9937C',
-    '#FB9C45',
-    '#45A3FB',
-    '#FB45D3',
-    '#45E5FB',
-    '#FB4545',
-    ]
-
-    let indexOffset = 0
-
-    setInterval(() => {
-    document.querySelectorAll('.colored--item').forEach((letter, index) => {
-        letter.style.color = colors[(index + indexOffset) % 7]
-    })
-    indexOffset++
-    }, 1000)
-
 }
 </script>
 
 <style lang="scss" scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: "Monospace", sans-serif;
-    min-height: 100vh;
-    padding-bottom: 3em;
-}
-.login{
+.inputs{
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -13,15 +13,16 @@ export const useAuth = defineStore({
   },
 
   actions: {
-    async login(user) {
+    async login(user: object) {
       this.user = user
       localStorage.setItem('user', JSON.stringify(user)) 
-      navigateTo('/daily')
+      return navigateTo('/daily')
     },
     logout() {
       localStorage.removeItem('user')
       this.user = null
-      navigateTo('/')
+      // navigateTo('/')
+      return location.href = '/'
     }
   }
 })

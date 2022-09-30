@@ -1,6 +1,3 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-}
 * {
     margin: 0;
 }
@@ -21,36 +18,11 @@ input, button, textarea, select {
 p, h1, h2, h3, h4, h5, h6 {
     overflow-wrap: break-word;
 }
-#root, #__next {
+#root, #__nuxt {
     isolation: isolate;
 }
 ul{
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-@font-face {
-    font-family: "Monospace";
-    src: url("@/assets/fonts/monos.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: "Monospace";
-    src: url("@/assets/fonts/monosb.woff2") format("woff2");
-    font-weight: bold;
-    font-style: normal;
-}
-@font-face {
-    font-family: "Monospace";
-    src: url("@/assets/fonts/monosi.woff2") format("woff2");
-    font-weight: normal;
-    font-style: italic;
-}
-@font-face {
-    font-family: "Monospace";
-    src: url("@/assets/fonts/monosbi.woff2") format("woff2");
-    font-weight: bold;
-    font-style: italic;
 }

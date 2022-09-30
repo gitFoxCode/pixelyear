@@ -1,27 +1,17 @@
 <template>
-    <h1>Did <b>you</b> do any exercises today?</h1>
-    <span class="description">You can choose many options at once. Mark what activities you did today. If you did none of these things just move on without marking anything</span>
-    <div class="content">
-        <span class="content__title">Today I exercised...</span>
-        <div class="content-column">
-            <div class="big-pixel">
-                <div class="big-pixel--inner" :class="optionPixel.class" v-for="optionPixel in currentValue" :key="optionPixel"></div>
-            </div>
-            <div class="content__options">
-                <div class="pixel__box" :class="{'selected': (currentValue.some((el)=> el.value === optionPixel.value))}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
-                    <div class="pixel" :class="optionPixel.class" :data-value="optionPixel.value"></div>
-                    <div class="pixel-text">{{optionPixel.text}}</div>
-                </div>
-            </div>
+    <div class="content__options">
+        <div class="pixel__box" :class="{'selected': (currentValue.some((el)=> el.value === optionPixel.value))}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
+            <div class="pixel" :class="optionPixel.class" :data-value="optionPixel.value"></div>
+            <div class="pixel-text">{{optionPixel.text}}</div>
         </div>
     </div>
 </template>
 
 <script setup>
 const props = defineProps({
-    dbValue: String // Value from database if a user has already filled a category 
+    apiValue: String // Value from database if a user has already filled a category 
 })
-const emits = defineEmits(["emitPixel"])
+const emits = defineEmits(["emitSelected"])
 
 const optionsValue = ref([{
     value: 1,
@@ -49,23 +39,17 @@ const optionsValue = ref([{
     class: 'pixel--dash-left'
 }])
 
-const empty = {
+const empty = [{
     value: 0,
     text: 'Not selected',
     class: ''
+}]
+
+const currentValue = props.apiValue ? ref(optionsValue[props.apiValue-1]) : ref(empty)
+
+if(props.apiValue){
+    emits('emitSelected', currentValue.value)
 }
-
-const currentValue = props.dbValue ? ref([]) : ref([empty])
-
-
-if(props.dbValue){
-    currentValue.value = []
-    for(let i = 0; i <= String(props.dbValue).length-1; i++){
-        currentValue.value.push(optionsValue.value[String(props.dbValue)[i]-1])
-    }
-}
-
-console.log("props",props.dbValue, currentValue.value)
 
 const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
@@ -85,55 +69,11 @@ const changeValue = (ev) =>{
     
     currentValue.value = currentValue.value.filter((el)=> el.value !== 0)
     
-    emits('emitPixel', {category: 'exercises', pixel: currentValue.value.map((el)=> el.value).join('')})
+    emits('emitSelected', currentValue.value)
 }
 </script>
 
-<style lang="scss" scoped>
-.text{
-    display: block;
-    font-size: 3em;
-    margin: 1em 0;
-}
-.content__options{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1em;
-    margin-top: 2em;
-}
-.content-column{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(1em, 5em, 2em);
-}
-.big-pixel{
-    position: relative;
-    width: 10em;
-    height: 10em;
-    border-radius: 1.5em;
-    background-color: #222;
-    border: 0.4em solid #2D2D2D;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #222;
-    overflow: hidden;
-    z-index: -1;
-}
-.big-pixel--inner{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-}
-.pixel__box{
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-}
+<style lang="scss">
 .pixel--dot::before{
     content: "";
     position: absolute;
@@ -193,6 +133,21 @@ const changeValue = (ev) =>{
 .pixel--blue{
     background-color: rgb(67, 97, 248);
     z-index: -1;
+}
+</style>
+
+<style lang="scss" scoped>
+.content__options{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 2em;
+}
+.pixel__box{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
 }
 .selected .icon{
     transform: translateX(-0.5em)

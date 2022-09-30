@@ -8,14 +8,16 @@
         </button>
         <nav class="navigation" v-show="activeMenu">
             <div class="user">
-                <div class="user__avatar"></div>
+                <div class="user__avatar">
+                    <img :src="`https://pixelyear.herokuapp.com/api/avatar/${user.uuid}`" alt="User avatar"/>
+                </div>
                 <span class="user__email">{{ user.email }}</span>
             </div>
             <ul>
                 <li><nuxt-link to="/daily"> <nuxt-icon name="daily"/> Daily</nuxt-link></li>
                 <li><nuxt-link to="/stats"> <nuxt-icon name="stats"/> Stats</nuxt-link></li>
                 <li><nuxt-link to="/settings"> <nuxt-icon name="cog"/> Settings</nuxt-link></li>
-                <li><nuxt-link to="/logout"> <nuxt-icon name="logout"/> Logout</nuxt-link></li>
+                <li><a href="#" @click="useAuth().logout()"> <nuxt-icon name="logout"/> Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -30,6 +32,8 @@ const props = defineProps({
 
 const user = useAuth().getUser
 
+console.log(`[user]`, user)
+
 const activeMenu = ref(false)
 const toggleMenu = ()=>{
     activeMenu.value = !activeMenu.value
@@ -38,7 +42,6 @@ const toggleMenu = ()=>{
     }else{
         document.querySelector('main').classList.remove("menu__active")
     }
-    console.log("Open menu")
 }
 </script>
 
@@ -54,7 +57,7 @@ const toggleMenu = ()=>{
     display: flex;
     align-items: center;
     gap: 1em;
-    font-size: 0.9em;
+    font-size: 0.5em;
     color: #EEE;
     text-decoration: none;
     margin-left: auto;
@@ -78,12 +81,13 @@ const toggleMenu = ()=>{
         padding-bottom: 1em;
         border-bottom: 1px solid #eee;
     }
-    .user__avatar{
+    .user__avatar img{
         display: block;
         width: 2em;
         height: 2em;
         background: #eee;
         border-radius: 100%;
+        object-fit: cover;
     }
     a{
         text-decoration: none;
@@ -127,5 +131,9 @@ const toggleMenu = ()=>{
     background-color: transparent;
     border: none;
     font-size: 1em;
+}
+.router-link-active{
+    font-weight: bold;
+    padding-right: 1em;
 }
 </style>

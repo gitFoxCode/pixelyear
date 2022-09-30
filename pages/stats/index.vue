@@ -3,18 +3,18 @@
         <TopNav goBack="/daily#completed"/>
         <main>
             <div class="cards">
-                <div class="card" v-for="year in years.years" :key="year">
+                <div class="card" v-for="year in years" :key="year">
                     <span class="title">{{ year }}</span>
                     <p>Statistics from {{ year }}</p>
                     <nuxt-link :to="`/stats/${year}`" class="general">General statistics</nuxt-link>
                     <ul class="links">
-                        <li><nuxt-link :to="`/rate/${year}`">Rate</nuxt-link></li>
-                        <li><nuxt-link :to="`/anxiety/${year}`">Anxiety</nuxt-link></li>
-                        <li><nuxt-link :to="`/mood/${year}`">Mood</nuxt-link></li>
-                        <li><nuxt-link :to="`/weather/${year}`">Weather</nuxt-link></li>
-                        <li><nuxt-link :to="`/exercise/${year}`">Exercises</nuxt-link></li>
-                        <li><nuxt-link :to="`/reading/${year}`">Reading</nuxt-link></li>
-                        <li><nuxt-link :to="`/health/${year}`">Health</nuxt-link></li>
+                        <li><nuxt-link :to="`/stats/${year}/rate`">Rate</nuxt-link></li>
+                        <li><nuxt-link :to="`/stats/${year}/anxiety`">Anxiety</nuxt-link></li>
+                        <li><nuxt-link :to="`/stats/${year}/mood`">Mood</nuxt-link></li>
+                        <li><nuxt-link :to="`/stats/${year}/weather`">Weather</nuxt-link></li>
+                        <li><nuxt-link :to="`/stats/${year}/exercises`">Exercises</nuxt-link></li>
+                        <li><nuxt-link :to="`/stats/${year}/reading`">Reading</nuxt-link></li>
+                        <li><nuxt-link :to="`/stats/${year}/health`">Health</nuxt-link></li>
                     </ul>
                 </div>
             </div>
@@ -23,16 +23,19 @@
 </template>
 
 <script setup>
-import { useAuth } from '~/store/auth'
 definePageMeta({
-  middleware: ["user"]
+    middleware: ["user"]
 })
-const { data: years } = await useLazyFetch(`https://pixelyear.herokuapp.com/api/active_years`, {
-    headers:{
-        'Authorization': 'Bearer ' + useAuth().getToken
-    }
+
+const rawResponse = await useApi('active_years', {
+    method: 'GET',
+    token: true
 })
-console.log(years.value)
+
+const years = ref(null)
+const response = await rawResponse.json()
+
+years.value = response.years
 </script>
 
 <style lang="scss" scoped>

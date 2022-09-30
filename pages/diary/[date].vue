@@ -10,7 +10,7 @@
             ></textarea>
             <div class="error" v-if="error">{{error}}</div>
             <div class="section__buttons">
-                <nuxt-link to="/daily">Close</nuxt-link>
+                <nuxt-link to="/daily#completed">Close</nuxt-link>
                 <button type="button" class="primary" :class="{'loading': saveLoading}"  @click="saveDiary"><nuxt-icon name="bookmark"/> Save</button>
             </div>
         </main>
@@ -94,7 +94,7 @@ main{
 .diary__input{
     border: none;
     background: transparent;
-    background-image: url('@/assets/images/dots.png');
+    background-image: url('@/assets/images/line.png');
     background-size: 1.5em auto;
     line-height: 1em;
     width: 100%;

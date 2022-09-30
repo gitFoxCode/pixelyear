@@ -1,26 +1,17 @@
 <template>
-    <h1>How was the weather today?</h1>
-    <span class="description">Mark what the main weather was that day</span>
-    <div class="content">
-        <span class="content__title">Today's weather was...</span>
-        <div class="content__weather">
-            <div class="icon">{{ currentValue.icon }}</div>
-            <span class="weather__type" data-value="4">{{ currentValue.text }}</span>
-        </div>
-        <div class="content__options">
-            <div class="pixel__box" :class="{'selected': (optionPixel.value === currentValue.value)}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
-                <div class="icon">{{optionPixel.icon}}</div>
-                <div class="pixel" :data-value="optionPixel.value"></div>
-            </div>
+    <div class="content__options">
+        <div class="pixel__box" :class="{'selected': (optionPixel.value === currentValue.value)}" @click="changeValue($event)" v-for="optionPixel in optionsValue" :key="optionPixel">
+            <div class="icon">{{optionPixel.icon}}</div>
+            <div class="pixel" :data-value="optionPixel.value"></div>
         </div>
     </div>
 </template>
 
 <script setup>
 const props = defineProps({
-    dbValue: String // Value from database if a user has already filled a category 
+    apiValue: String // Value from database if a user has already filled a category 
 })
-const emits = defineEmits(["emitPixel"])
+const emits = defineEmits(["emitSelected"])
 
 const optionsValue = [{
     value: 1,
@@ -51,29 +42,23 @@ const optionsValue = [{
 const empty = {
     value: 0,
     text: 'Not selected',
-    icon: '✏'
+    icon: '❔'
 }
 
-const currentValue = props.dbValue ? ref(optionsValue[props.dbValue-1]) : ref(empty)
+const currentValue = props.apiValue ? ref(optionsValue[props.apiValue-1]) : ref(empty)
+
+if(props.apiValue){
+    emits('emitSelected', currentValue.value)
+}
+
 const changeValue = (ev) =>{
     const clickedPixelBox = ev.target.closest('.pixel__box') || ev.target
     currentValue.value = optionsValue[clickedPixelBox.querySelector('.pixel').dataset.value-1]
-    emits('emitPixel', {category: 'weather', pixel: currentValue.value.value})
+    emits('emitSelected', currentValue.value)
 }
 </script>
 
 <style lang="scss" scoped>
-.weather__type{
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-.content__weather .icon{
-    font-size: 10rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .content__options{
     display: flex;
     justify-content: center;

@@ -2,7 +2,7 @@
     <section class="section">
         <TopNav />
         <main>
-           Ogólne statystyki tutaj...
+            <!-- CONTENT -->
         </main>
     </section>
 </template>

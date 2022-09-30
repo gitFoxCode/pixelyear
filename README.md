@@ -14,8 +14,7 @@ Login through the application itself, JWT token
 - Ability to create your own categories 
 
 ### Refactorization 🤞
-- Break the components into even smaller ones. E.g.: `components/categories/anxiety/inputs` which will allow to use the components themselves in the calendar and in the 'daily'
-- Divide classes into global and local to preserve DRY
+- Rethink creating a layout for all pages
 - Moving between categories should be dynamic (support for custom categories)
 
 ## Setup

@@ -1,28 +1,30 @@
 <template>
-    <h1>How was <b>your</b> day?</h1>
-    <span class="description">Rate your day on a scale of 1 to 5 comparing it to other days of your life, try to be as objective as possible</span>
-    <div class="content">
-        <span class="content__title">Today's day was...</span>
-        <div class="content__rating-box">
-            <span class="content__rating-rate"><span class="value">3</span></span>
-            <span class="content__rating--hr">/</span>
-            <span class="content__rating">5</span>
-            <span class="content__text"><span class="value-text">pretty average</span></span>
-        </div>
-        <div class="content__options">
-            <div class="pixel" v-for="pixel in pixels" 
-            :data-value="pixel.value" 
-            :key="pixel"  
-            @click="selectPixel($event)"
-            :class="{'pixel--selected': (pixel.value === currentPixel.value)}">{{ pixel.value }}</div>
+    <section class="category">
+        <h1>How was <b>your</b> day?</h1>
+        <span class="description">Rate your day on a scale of 1 to 5 comparing it to other days of your life, try to be as objective as possible</span>
+        <div class="content">
+            <span class="content__title">Today's day was...</span>
 
+            <div class="content__rating-box">
+                <span class="content__rating-rate"><span class="value">3</span></span>
+                <span class="content__rating--hr">/</span>
+                <span class="content__rating">5</span>
+                <span class="content__text"><span class="value-text">pretty average</span></span>
+            </div>
+            <div class="content__options">
+                <div class="pixel" v-for="pixel in pixels" 
+                :data-value="pixel.value" 
+                :key="pixel"  
+                @click="selectPixel($event)"
+                :class="{'pixel--selected': (pixel.value === currentPixel.value)}">{{ pixel.value }}</div>
+            </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script setup>
 const props = defineProps({
-    dbValue: String // Value from database if a user has already filled a category 
+    apiValue: String // Value from database if a user has already filled a category 
 })
 const emits = defineEmits(["emitPixel"])
 
@@ -42,13 +44,12 @@ const pixels = [{
     value: 5,
     text: 'great!'
 }]
-const currentPixel = ref(pixels[2])
-const rateTexts = ['very bad', 'bad', 'pretty average', 'good', 'great!']
 
-console.log(props.dbValue)
+const currentPixel = props.apiValue ? ref(pixels[props.apiValue-1]) : ref(pixels[2])
 
-if(props.dbValue){
-    currentPixel.value = pixels[props.dbValue-1]
+// The main category in which ratings are required
+if(!props.apiValue){
+    emits('emitPixel', {category: 'rate', pixel: 3})
 }
 
 const selectPixel = (ev) =>{
@@ -58,7 +59,7 @@ const selectPixel = (ev) =>{
     rateValue.classList.add('value--transform')
     rateValueText.classList.add('value-text--transform')
     setTimeout(()=>{ // TODO: Remove or change to requestanimaterate
-        rateValueText.innerText = rateTexts[ev.target.dataset.value-1]
+        rateValueText.innerText = pixels[ev.target.dataset.value-1].text
         rateValue.innerText = ev.target.dataset.value
         setTimeout(()=>{
             rateValueText.classList.remove('value-text--transform')
@@ -157,11 +158,11 @@ const selectPixel = (ev) =>{
     font-weight: bold;
     overflow: hidden;
     & .value-text{
-      position: absolute;
-      white-space: nowrap;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 0;  
+        position: absolute;
+        white-space: nowrap;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;  
     }
 }
 .content__options{

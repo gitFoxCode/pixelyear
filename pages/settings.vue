@@ -3,15 +3,19 @@
         <TopNav />
         <main class="settings">
             <div class="avatar">
-                <img src="@/assets/images/default-avatar.png" alt="User avatar" />
-                <nuxt-icon name="edit" class="avatar__icon" />
+                <label>
+                    <img :src="`https://pixelyear.herokuapp.com/api/avatar/${user.uuid}`" alt="User avatar" />
+                    <nuxt-icon name="edit" class="avatar__icon" />
+                    <input type="file" id="avatar" name="avatar" style="display:none" @change="changeAvatar" />
+                </label>
+                <div class="error-msg" v-if="avatarError">{{avatarError}}</div>
             </div>
             <h1 class="title">Settings</h1>
             <div class="inputs">
                 <label class="input__box">
                     <span class="input__title">E-mail</span>
                     <div class="input__content">
-                        <input type="text" :value="useAuth().getUser.email" readonly>
+                        <input type="text" :value="user.email" readonly>
                         <span class="input__icon"> <nuxt-icon name="lock"/> </span>
                     </div>
                 </label>
@@ -29,7 +33,7 @@
         <UtilitiesModal 
         v-if="modalActive"
         title="Deleting an account" 
-        :content="`Are you sure you want to delete your account (${useAuth().getUser.email})? This option cannot be undone.`"
+        :content="`Are you sure you want to delete your account (${user.email})? This option cannot be undone.`"
         primaryBtn="Delete"
         :confirmFunction="deleteAccount"
         @modalClose="modalClose"/>
@@ -42,8 +46,9 @@ definePageMeta({
     middleware: ["user"]
 })
 
-const user = useAuth().getToken
+const user = useAuth().getUser
 const modalActive = ref(false)
+const avatarError = ref("")
 
 const deleteAccount = async ()=>{
     const rawResponse = await fetch('https://pixelyear.herokuapp.com/api/delete_account', {
@@ -69,16 +74,27 @@ const modalClose = ()=>{
     modalActive.value = false
 }
 
+const changeAvatar = async (ev) =>{
+    avatarError.value = ""
+    const formData = new FormData()
+    console.log(ev.target.files[0])
+    formData.append('avatar', ev.target.files[0])
+    for (var key of formData.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+    }
+    const rawResponse = await useApi('upload_avatar', 
+    {method: 'PATCH', token: true, formdata: true, rawbody: true, body: formData})
+    console.log(rawResponse)
+    const response = await rawResponse.json()
+    console.log(response)
+    if(response?.error){
+        avatarError.value = response.error
+    }
+}
+
 </script>
 
 <style lang="scss" scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    min-height: calc(100vh - 5em);
-    padding-top: 5em;
-}
 .settings{
     display: flex;
     flex-direction: column;
@@ -88,9 +104,19 @@ main{
     width: 10em;
     height: 10em;
     border-radius: 50%;
+    object-fit: cover;
 }
-.avatar{
+.error-msg{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-color: #FF3636;
+    padding: 1em;
+}
+.avatar label{
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .avatar__icon{
     position: absolute;

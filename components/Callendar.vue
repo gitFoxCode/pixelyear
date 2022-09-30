@@ -23,18 +23,18 @@
             <tbody>
                 <tr v-for="(n,index) in 31" :key="n">
                     <th>{{n}}</th>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.01 - ${new Date(1+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['january'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.02 - ${new Date(2+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['february'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.03 - ${new Date(3+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['march'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.04 - ${new Date(4+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['april'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.05 - ${new Date(5+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['may'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.06 - ${new Date(6+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['june'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.07 - ${new Date(7+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['july'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.08 - ${new Date(8+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['august'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.09 - ${new Date(9+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['september'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.10 - ${new Date(10+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['october'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.11 - ${new Date(11+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['november'][index]" @click="selectPixel"></div></td>
-                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.12 - ${new Date(12+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="year['december'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.01 - ${new Date(1+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['january'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.02 - ${new Date(2+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['february'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.03 - ${new Date(3+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['march'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.04 - ${new Date(4+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['april'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.05 - ${new Date(5+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['may'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.06 - ${new Date(6+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['june'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.07 - ${new Date(7+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['july'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.08 - ${new Date(8+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['august'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.09 - ${new Date(9+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['september'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.10 - ${new Date(10+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['october'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.11 - ${new Date(11+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['november'][index]" @click="selectPixel"></div></td>
+                    <td><div class="pixel" :data-date="`${n.toString().padStart(2, '0')}.12 - ${new Date(12+'/'+n+'/'+yearDate).toLocaleDateString('en-EN', {weekday: 'short'})}`" :data-value="yearPixels['december'][index]" @click="selectPixel"></div></td>
                 </tr>
             </tbody>
         </table>
@@ -43,20 +43,20 @@
 
 <script setup>
 const props = defineProps({
-    year: Object,
-    yearDate: String || Number,
+    yearPixels: Object,
+    yearDate: String | Number,
     typeText: String,
     type: String
 })
 
 onMounted(()=>{
+    
     const todayPixel = document.querySelector(`tbody tr:nth-of-type(${new Date().getDate()}) td:nth-of-type(${new Date().getMonth()+1}) .pixel`)
     todayPixel.classList.add('pixel--today')
 
     if(props.type === 'exercises'){
-        const classes = ['pixel--blue', 'pixel--dot', 'pixel--circle', 'pixel--dash', 'pixel--dash-left']
+        const classes = ['none', 'pixel--blue', 'pixel--dot', 'pixel--circle', 'pixel--dash', 'pixel--dash-left']
 
-        console.log("KALENDASZ")
         const pixels = document.querySelectorAll('tbody .pixel')
         pixels.forEach((pixel)=>{
             const pixelValue = pixel.dataset.value
@@ -72,6 +72,36 @@ onMounted(()=>{
                     console.log(String(pixelValue)[i])
                 }
                 console.log(pixelValue)
+            }
+        })
+    }
+    if(props.type === "reading"){
+        const pixels = document.querySelectorAll('tbody .pixel')
+        pixels.forEach((pixel)=>{
+            const pages = pixel.dataset.value
+            if(pages === 0){
+                pixel.dataset.color = "1"
+            }
+            if(pages >= 10  && pages <= 10){
+                pixel.dataset.color = "2"
+            }
+            if(pages >= 11  && pages <= 20){
+                pixel.dataset.color = "3"
+            }
+            if(pages >= 21  && pages <= 30){
+                pixel.dataset.color = "4"
+            }
+            if(pages >= 31  && pages <= 50){
+                pixel.dataset.color = "5"
+            }
+            if(pages >= 51  && pages <= 70){
+                pixel.dataset.color = "6"
+            }
+            if(pages >= 51  && pages <= 70){
+                pixel.dataset.color = "7"
+            }
+            if(pages >= 51  && pages <= 70){
+                pixel.dataset.color = "8"
             }
         })
     }
@@ -92,6 +122,9 @@ const selectPixel = (ev)=>{
 </script>
 
 <style lang="scss" scoped>
+.pixel--inner {
+    z-index: 2 !important;
+}
 table{
     width: 100%;
     font-size: 1.5em;
@@ -146,6 +179,8 @@ th,td{
         font-size: 0.6em;
         padding: 0 1em;
         border-radius: 0.2em;
+        color: #eee;
+        font-weight: normal;
     }
 }
 .pixel{
@@ -222,28 +257,28 @@ th,td{
     }
 }
 .reading .pixel{
-    &[data-value="1"]{
+    &[data-color="1"]{
         background-color: rgb(202, 202, 202);
     }
-    &[data-value="2"]{
+    &[data-color="2"]{
         background-color: rgb(107, 243, 255);
     }
-    &[data-value="3"]{
+    &[data-color="3"]{
         background-color: rgb(107, 255, 216);
     }
-    &[data-value="4"]{
+    &[data-color="4"]{
         background-color: rgb(107, 255, 132);
     }
-    &[data-value="5"]{
+    &[data-color="5"]{
         background-color: rgb(176, 255, 107);
     }
-    &[data-value="6"]{
+    &[data-color="6"]{
         background-color: rgb(213, 255, 107);
     }
-    &[data-value="7"]{
+    &[data-color="7"]{
         background-color: rgb(187, 255, 0);
     }
-    &[data-value="8"]{
+    &[data-color="8"]{
         background-color: rgb(150, 106, 232);
         box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(150, 106, 232, 0.4) 0px 25px 50px -12px;
     }
@@ -252,7 +287,7 @@ th,td{
 </style>
 
 <style lang="scss">
-    /// TODO: :v-deep()
+    /// TODO: :v-deep(), delete
 .exercises .pixel{
     .pixel--inner{
         position: absolute;
