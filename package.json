@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --port 7001",
     "dev:https": "nuxt dev --https --port 7001",
     "https": "nuxt dev --https --ssl-key key.pem --ssl-cert cert.pem --port 7001",
     "generate": "nuxt generate",
