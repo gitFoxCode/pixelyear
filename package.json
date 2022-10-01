@@ -3,7 +3,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "https": "nuxt dev --https --ssl-key key.pem --ssl-cert cert.pem --port 3000",
+    "https": "nuxt dev --https --ssl-key key.pem --ssl-cert cert.pem --port 7001",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

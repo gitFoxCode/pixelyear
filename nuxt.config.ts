@@ -6,8 +6,8 @@ export default defineNuxtConfig({
     buildModules: ['@pinia/nuxt'],
     ssr: false,
     server: {
-        port: 3000,
-        host: '192.168.1.14'
+        port: 7001,
+        host: '127.0.0.1'
     },
     app: {
         head: {
