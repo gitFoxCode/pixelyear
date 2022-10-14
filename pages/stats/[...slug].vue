@@ -3,6 +3,7 @@
         <TopNav goBack="/stats"/>
         <main v-if="$route.params.slug.length === 0">
            Ogólne statystyki tutaj...
+           <Bar></Bar>
         </main>
         <main v-if="$route.params.slug.length === 1">
            Ogólne statystyki na rok {{ year }}
@@ -24,6 +25,11 @@
 </template>
 
 <script setup lang="ts">
+import { Bar } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
+
 const error = ref(null)
 const route = useRoute()
 const year = Number(route.params.slug[0]) || null
